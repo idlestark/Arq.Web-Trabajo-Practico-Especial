@@ -1,108 +1,64 @@
 package com.example.microservicioMonopatin.entity;
-
 import jakarta.persistence.*;
 
 @Entity
-public class Monopatin {
+public class Scooter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private double bateria;
-    private boolean disponible;
-    private boolean enMantenimiento;
-    private double latitud;
-    private double longitud;
-    private double kilometrosRecorridos;
-    private double tiempoUso;
-
+    private double battery;
+    private boolean availeable;
+    private boolean underMaintenance;
+    private double latitude;
+    private double longitude;
+    private double kilometers;
+    private double timeUsed;
     @ManyToOne
-    @JoinColumn(name = "parada_id", nullable = false)
-    private Parada parada;
+    @JoinColumn(name = "stopId", nullable = false)
+    private Stop stop;
 
-
-    public Monopatin() {
-        super();
-    }
-
-    public Monopatin(Double latitud, Double longitud, Double bateria, double kilometrosRecorridos, double tiempoUso, Parada parada) {
-        super();
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.bateria = bateria;
-        this.disponible = true;
-        this.enMantenimiento = false;
-        this.kilometrosRecorridos = kilometrosRecorridos;
-        this.tiempoUso = tiempoUso;
-        this.parada = parada;
+    public Scooter(Stop stop, double timeUsed, double kilometers, double longitude, double latitude, boolean underMaintenance, boolean availeable, double battery, Long id) {
+        this.stop = stop;
+        this.timeUsed = timeUsed;
+        this.kilometers = kilometers;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.underMaintenance = underMaintenance;
+        this.availeable = availeable;
+        this.battery = battery;
+        this.id = id;
     }
 
     public Long getId() {
         return id;
     }
-
-    public Double getLatitud() {
-        return latitud;
+    public double getBattery() {
+        return battery;
+    }
+    public boolean isAvaileable() {
+        return availeable;
+    }
+    public boolean isUnderMaintenance() {
+        return underMaintenance;
+    }
+    public double getLatitude() {
+        return latitude;
+    }
+    public double getLongitude() {
+        return longitude;
+    }
+    public double getKilometers() {
+        return kilometers;
+    }
+    public double getTimeUsed() {
+        return timeUsed;
+    }
+    public Stop getStop() {
+        return stop;
+    }
+    public Scooter() {
+        super();
     }
 
-    public void setLatitud(Double latitud) {
-        this.latitud = latitud;
-    }
-
-    public Double getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(Double longitud) {
-        this.longitud = longitud;
-    }
-
-    public Double getBateria() {
-        return bateria;
-    }
-
-    public void setBateria(Double bateria) {
-        this.bateria = bateria;
-    }
-
-    public boolean isDisponible(){
-        return disponible;
-    }
-
-    public void setDisponible(boolean disponible){
-        this.disponible = disponible;
-    }
-
-    public boolean isEnMantenimiento(){
-        return enMantenimiento;
-    }
-
-    public void setEnMantenimiento(boolean enMantenimiento){
-        this.enMantenimiento = enMantenimiento;
-    }
-
-    public double getKilometrosRecorridos(){
-        return kilometrosRecorridos;
-    }
-
-    public void setKilometrosRecorridos(double kilometros){
-        this.kilometrosRecorridos = kilometros;
-    }
-
-    public double getTiempoUso(){
-        return tiempoUso;
-    }
-
-    public void setTiempoUso(double tiempo){
-        this.tiempoUso = tiempo;
-    }
-
-    public Parada getParada(){
-        return parada;
-    }
-
-    public void setParada(Parada parada){
-        this.parada = parada;
-    }
 }

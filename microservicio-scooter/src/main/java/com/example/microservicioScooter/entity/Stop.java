@@ -1,5 +1,4 @@
 package com.example.microservicioMonopatin.entity;
-
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,53 +9,28 @@ public class Stop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
+    private double latitude;
+    private double longitude;
+    @OneToMany(mappedBy = "stop")
+    private List<Scooter> scooters;
 
-    private String nombre;
-    private double latitud;
-    private double longitud;
-
-    @OneToMany(mappedBy = "parada")
-    private List<Scooter> Scooters;
-
-
-
-    public Parada() {
+    public Stop() {
         super();
-        this.Scooters = new ArrayList<>();
     }
 
-    public Stop(String nombre, String direccion, Double latitud, Double longitud) {
+    public Stop(String name, Double latitude, Double longitude) {
         super();
         this.nombre = nombre;
         this.latitud = latitud;
         this.longitud = longitud;
+        this.scooters = new ArrayList<>();
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
+    public List<Scooter> getScooters() { return scooters; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public void setLatitud(Double latitud) {
-        this.latitud = latitud;
-    }
-    public Double getLatitud() {
-        return latitud;
-    }
-    public Double getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(Double longitud) {
-        this.longitud = longitud;
-    }
-
-    public List<Scooter> getScooters() {
-        return Scooters;
-    }
 }

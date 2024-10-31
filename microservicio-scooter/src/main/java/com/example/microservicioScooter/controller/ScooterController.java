@@ -1,6 +1,6 @@
-package com.example.microserviciobike.controller;
-import com.example.microserviciobike.entity.Bike;
-import com.example.microserviciobike.service.BikeService;
+package com.example.microservicioScooter.controller;
+import com.example.microservicioScooter.entity.Scooter;
+import com.example.microservicioScooter.service.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,7 @@ public class skateboardController {
 
     @GetMapping("/")
     public ResponseEntity<List<Scooter>> getAllScooter() {
-        List<Scooter> scooters = scooterService.getAll();
+        List<Scooter> scooterList = scooterService.getAll();
         if (scooters.isEmpty()) {
             return  ResponseEntity.noContent().build();
         }
@@ -32,14 +32,14 @@ public class skateboardController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Bike> save(@RequestBody Bike bike) {
-        Bike bikeNew = bikeService.save(bike);
-        return ResponseEntity.ok(bikeNew);
+    public ResponseEntity<Scooter> save(@RequestBody Scooter scooter) {
+        Scooter newScooter = scooterService.save(scooter);
+        return ResponseEntity.ok(newScooter);
     }
 
-    @GetMapping("/byUser/{userId}")
-    public ResponseEntity<List<Bike>> getCarsByUserId(@PathVariable("userId") Long userId) {
-        List<Bike> bikes = bikeService.byUserId(userId);
-        return ResponseEntity.ok(bikes);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Scooter>> getCarsByUserId(@PathVariable("userId") Long userId) {
+        List<Scooter> scooterList = scooterService.byUserId(userId);
+        return ResponseEntity.ok(scooterList);
     }
 }

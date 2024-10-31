@@ -6,18 +6,17 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <groupId>micro.example</groupId>
     <artifactId>microserviciosLuigiCode</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-
     <packaging>pom</packaging>
     <name>microserviciosLuigiCode</name>
     <description>microserviciosLuigiCode</description>
     <modules>
-        <module>microservicio-user</module>
+        <module>microserviio-user</module>
         <module>microservicio-car</module>
         <module>microservicio-bike</module>
     </modules>
