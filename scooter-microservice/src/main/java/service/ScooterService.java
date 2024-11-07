@@ -5,7 +5,6 @@ import repository.ScooterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +31,8 @@ public class ScooterService {
     }
 
     @Transactional
-    public Scooter update(Scooter monopatin) {
-        return ScooterRepository.save(monopatin);
+    public Scooter update(Scooter scooter) {
+        return ScooterRepository.save(scooter);
     }
 
     @Transactional
@@ -44,7 +43,7 @@ public class ScooterService {
     public Map<String, Long> getScootersStatus() {
         long operative = ScooterRepository.countByAvaileable();
         long underMaintenance = ScooterRepository.countByUnderMaintenance();
-        return Map.of("Operative:", operative, "Under maintenance", underMaintenance);
+        return Map.of("Operative", operative, " Under maintenance", underMaintenance);
     }
 
 
