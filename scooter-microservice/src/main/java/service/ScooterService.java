@@ -1,6 +1,5 @@
 package service;
-
-import client.ViajeClient;
+import client.ClientTrip;
 import entities.Scooter;
 import repository.ScooterRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package com.example.microservicioScooter.controller;
-import com.example.microservicioScooter.entity.Scooter;
-import com.example.microservicioScooter.service.ScooterService;
+package controller;
+import entities.Scooter;
+import service.ScooterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/scooter")
-public class skateboardController {
+public class ScooterController {
 
     @Autowired
     ScooterService scooterService;
@@ -16,7 +16,7 @@ public class skateboardController {
     @GetMapping("/")
     public ResponseEntity<List<Scooter>> getAllScooter() {
         List<Scooter> scooterList = scooterService.getAll();
-        if (scooters.isEmpty()) {
+        if (scooterList.isEmpty()) {
             return  ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(scooters);
