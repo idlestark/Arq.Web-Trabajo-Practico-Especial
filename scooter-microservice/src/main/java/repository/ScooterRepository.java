@@ -11,16 +11,16 @@ import java.util.List;
 public interface ScooterRepository extends JpaRepository<Scooter, Long> {
 
     @Query("SELECT COUNT(m) FROM Scooter m WHERE m.availeable = true AND m.underMaintenance = false")
-    long countByDisponibleTrueAndEnMantenimientoFalse();
+    long countByAvaileable();
 
     @Query("SELECT COUNT(m) FROM Scooter m WHERE m.underMaintenance = true")
-    long countByEnMantenimientoTrue();
+    long countByUnderMaintenance();
 
     @Query("SELECT m FROM Scooter m WHERE " +
             "(6371 * acos(cos(radians(:latitud)) * cos(radians(m.latitude)) * " +
             "cos(radians(m.longitude) - radians(:longitud)) + sin(radians(:latitud)) * " +
             "sin(radians(m.latitude)))) < :radio")
-    List<Scooter> findMonopatinesCercanos(@Param("latitud") double latitud,
+    List<Scooter> findClosestScooter(@Param("latitud") double latitud,
                                             @Param("longitud") double longitud,
                                             @Param("radio") double radio);
 

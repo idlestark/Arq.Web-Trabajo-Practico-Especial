@@ -12,8 +12,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Service
 public class ScooterService {
+
     private final ScooterRepository scooterRepository;
-    private final ViajeClient viajeClient;
+    private final ClientTrip clientTrip;
 
     @Transactional(readOnly = true)
     public List<Scooter> findAll() {
@@ -40,18 +41,18 @@ public class ScooterService {
         ScooterRepository.deleteById(id);
     }
 
-    public Map<String, Long> obtenerEstadoMonopatines() {
-        long enOperacion = ScooterRepository.countByDisponibleTrueAndEnMantenimientoFalse();
-        long enMantenimiento = ScooterRepository.countByEnMantenimientoTrue();
-        return Map.of("En Operación", enOperacion, "En Mantenimiento", enMantenimiento);
+    public Map<String, Long> getScootersStatus() {
+        long operative = ScooterRepository.countByAvaileable();
+        long underMaintenance = ScooterRepository.countByUnderMaintenance();
+        return Map.of("Operative:", operative, "Under maintenance", underMaintenance);
     }
 
 
-    public List<Scooter> obtenerMonopatinesCercanos(double latitud, double longitud, double radio) {
-        return ScooterRepository.findMonopatinesCercanos(latitud, longitud, radio);
+    public List<Scooter> findClosestScooter(double latitude, double longitude, double radius) {
+        return ScooterRepository.findClosestScooter(latitude, longitude, radius);
     }
 
-    public List<Scooter> obtenerMonopatinesConMasViajes(int minViajes, int anio) {
-        return viajeClient.obtenerMonopatinesConMasViajes(minViajes, anio);
+    public List<Scooter> getScootersWithMostTrips(int minViajes, int anio) {
+        return ClientTrip.getScootersWithMostTrips(minViajes, anio);
     }
 }
