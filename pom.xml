@@ -9,15 +9,19 @@
         <relativePath/>
     </parent>
 
-    <groupId>tudai</groupId>
-    <artifactId>TP-Especial</artifactId>
+    <groupId>edu.tudai</groupId>
+    <artifactId>TP_Especial</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>TP-Especial</name>
-    <description>TP-Especial</description>
+    <name>TP_Especial</name>
+    <description>TP_Especial</description>
 
     <modules>
         <module>scooter-microservice</module>
         <module>admin-microservice</module>
+        <module>ticket-microservice</module>
+        <module>trip-microservice</module>
+        <module>user-microservice</module>
+        <module>src</module>
     </modules>
 
     <url/>

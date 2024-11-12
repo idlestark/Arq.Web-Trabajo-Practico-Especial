@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/ticket-microservice/src/main/resources/archetype-resources" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/user-microservice/src/main/resources/archetype-resources" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/src/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="microservicio-car" />
+        <module name="src" />
+        <module name="scooter-microservice" />
         <module name="TP_Especial" />
+        <module name="service-fact" />
+        <module name="microservicio-administrador" />
+        <module name="microservicio-car" />
+        <module name="Trip-microservice" />
+        <module name="user-microservice" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="TP-Especial" options="-parameters" />
       <module name="TP_Especial" options="-parameters" />
+      <module name="Trip-microservice" options="-parameters" />
+      <module name="microservicio-administrador" options="-parameters" />
       <module name="microservicio-car" options="-parameters" />
       <module name="microserviciosLuigiCode" options="-parameters" />
+      <module name="scooter-microservice" options="-parameters" />
+      <module name="service-fact" options="-parameters" />
+      <module name="src" options="-parameters" />
+      <module name="user-microservice" options="-parameters" />
     </option>
   </component>
 </project>
