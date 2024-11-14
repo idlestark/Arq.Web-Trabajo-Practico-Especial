@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
-@FeignClient(name = "fee-microservice", url = "http://localhost:8007/fee")
+@FeignClient(name = "fee-microservice", url = "http://localhost:8008/fee")
 public interface FeeClient {
     @PostMapping("/update-prices")
     void updatePrices(@RequestParam double newTicket, @RequestParam double newExtraTicket, @RequestParam LocalDate dateStart);

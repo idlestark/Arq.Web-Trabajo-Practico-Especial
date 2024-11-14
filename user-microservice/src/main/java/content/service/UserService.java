@@ -1,7 +1,7 @@
 package content.service;
 import content.DTO.ScooterDTO;
 import content.entities.User;
-import content.client.UserScooterClient;
+import content.client.ScooterClient;
 import content.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final UserScooterClient userScooterClient;
+    private final ScooterClient scooterClient;
 
     @Transactional(readOnly = true)
     public List<User> findAllUsers() {
@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public List<ScooterDTO> getNearbyScooters(double latitude, double longitude, double radius){
-        return userScooterClient.getNearbyScooters(latitude, longitude, radius);
+        return scooterClient.getNearbyScooters(latitude, longitude, radius);
     }
 
 }

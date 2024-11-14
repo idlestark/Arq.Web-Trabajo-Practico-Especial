@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "trip-service", url = "http://localhost:8003/trip")
+@FeignClient(name = "trip-service", url = "http://localhost:8005/trip")
 public interface TripClient {
     @GetMapping("")
     List<TripDTO> getAllTrips();

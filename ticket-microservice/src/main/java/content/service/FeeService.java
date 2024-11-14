@@ -39,8 +39,8 @@ public class FeeService {
     }
 
     public void updatePrice(double newBaseFee, double newExtraFee, LocalDate startDate) {
-        Fee baseFee = new Fee(Fee.FeeType.BASE, newBaseFee, startDate, null);
-        Fee extraFee = new Fee(Fee.FeeType.EXTRA_PAUSE, newExtraFee, startDate, null);
+        Fee baseFee = new Fee(startDate, null, newBaseFee, Fee.FeeType.BASE);
+        Fee extraFee = new Fee( startDate, null, newExtraFee,Fee.FeeType.EXTRA_PAUSE);
         feeRepository.save(baseFee);
         feeRepository.save(extraFee);
     }

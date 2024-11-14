@@ -1,4 +1,5 @@
 package content.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,6 +10,7 @@ public class TicketDetails {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "ticket_id", nullable = false)
+    @JsonIgnore
     private Ticket ticket;
     private Long tripId;
     private double feeBase;
@@ -21,19 +23,16 @@ public class TicketDetails {
         super();
     }
 
-    public TicketDetails(Ticket ticket, long tripId, double feeBase, double feeExtra, long timeUsed, long timePaused, double amount) {
+    public TicketDetails(Ticket ticket, long tripId, double feeBase, double feeExtra, long timeUsed, long timePaused) {
         this.ticket = ticket;
         this.tripId = tripId;
         this.feeBase = feeBase;
         this.feeExtra = feeExtra;
         this.timeUsed = timeUsed;
         this.timePaused = timePaused;
-        this.amount = amount;
     }
 
     public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
 
     public Ticket getTicket() { return ticket; }
 
@@ -60,8 +59,6 @@ public class TicketDetails {
     public void setTimePaused(long timePaused) { this.timePaused = timePaused; }
 
     public double getAmount() { return amount; }
-
-    public void setAmount(double amount) { this.amount = amount; }
 
     public void calculateAmount() {
         double basePrice = feeBase * timeUsed;

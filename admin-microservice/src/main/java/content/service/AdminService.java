@@ -2,7 +2,7 @@ package content.service;
 import content.client.AccountClient;
 import content.client.FeeClient;
 import content.client.TicketClient;
-import content.client.AdminScooterClient;
+import content.client.ScooterClient;
 import content.DTO.ScooterDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class AdminService {
 
     private final AccountClient accountClient;
-    private final  AdminScooterClient scooterClient;
+    private final ScooterClient scooterClient;
     private final TicketClient ticketClient;
     private final FeeClient feeClient;
 

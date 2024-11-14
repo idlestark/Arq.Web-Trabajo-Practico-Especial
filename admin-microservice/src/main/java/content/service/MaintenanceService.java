@@ -1,5 +1,5 @@
 package content.service;
-import content.client.AdminScooterClient;
+import content.client.ScooterClient;
 import content.client.TripClient;
 import content.DTO.ReportKilometerDTO;
 import content.DTO.TripDTO;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class MaintenanceService {
 
     private final MaintenanceRepository maintenanceRepository;
-    private final AdminScooterClient adminScooterClient;
+    private final ScooterClient scooterClient;
     private final TripClient tripClient;
 
     @Transactional(readOnly = true)
@@ -59,8 +59,8 @@ public class MaintenanceService {
         maintenance.setDescription(description);
         maintenanceRepository.save(maintenance);
 
-        adminScooterClient.updateAvailability(scooterId, false);
-        adminScooterClient.updateMaintenanceStatus(scooterId, true);
+        scooterClient.updateAvailability(scooterId, false);
+        scooterClient.updateMaintenanceStatus(scooterId, true);
 
         return maintenance;
     }
@@ -73,8 +73,8 @@ public class MaintenanceService {
         maintenance.setFinishDate(LocalDateTime.now());
         maintenanceRepository.save(maintenance);
 
-        adminScooterClient.updateAvailability(scooterId, true);
-        adminScooterClient.updateMaintenanceStatus(scooterId, false);
+        scooterClient.updateAvailability(scooterId, true);
+        scooterClient.updateMaintenanceStatus(scooterId, false);
 
         return maintenance;
     }

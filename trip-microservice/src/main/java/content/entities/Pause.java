@@ -45,4 +45,6 @@ public class Pause {
 
     public void setTrip(Trip trip) { this.trip = trip; }
 
+    public Long getTripId() { return trip.getId(); }
+
 }

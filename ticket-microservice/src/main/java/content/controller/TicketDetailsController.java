@@ -1,5 +1,8 @@
 package content.controller;
+import content.entities.Ticket;
+import content.DTO.TicketsDetailsDTO;
 import content.service.TicketDetailsService;
+import content.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import content.entities.TicketDetails;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import java.util.List;
 @RequestMapping("/ticket-details")
 public class TicketDetailsController {
     private final TicketDetailsService ticketDetailsService;
+    private final TicketService ticketService;
 
     @GetMapping
     public ResponseEntity<List<TicketDetails>> getAllTicketDetails() {
@@ -32,12 +36,21 @@ public class TicketDetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<TicketDetails> createTicketDetails(@RequestBody TicketDetails scooterTicket) {
-        TicketDetails details = ticketDetailsService.saveTicketDetails(scooterTicket);
-        if (details == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(details);
+    public ResponseEntity<TicketDetails> createTicketDetails(@RequestBody TicketsDetailsDTO ticketDetailsDTO) {
+        Ticket ticket = ticketService.findTicketById(ticketDetailsDTO.getTicketId());
+
+        TicketDetails ticketDetails = new TicketDetails(ticket, ticketDetailsDTO.getTripId(),
+                ticketDetailsDTO.getFeeBase(), ticketDetailsDTO.getFeeExtra(),
+                ticketDetailsDTO.getTimeUse(), ticketDetailsDTO.getTimePaused());
+
+        ticketDetails.calculateAmount();
+        ticketDetailsService.saveTicketDetails(ticketDetails);
+        return ResponseEntity.ok(ticketDetails);
+//        TicketDetails details = ticketDetailsService.saveTicketDetails(scooterTicket);
+//        if (details == null) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        return ResponseEntity.ok(details);
     }
 
     @DeleteMapping("/{id}")

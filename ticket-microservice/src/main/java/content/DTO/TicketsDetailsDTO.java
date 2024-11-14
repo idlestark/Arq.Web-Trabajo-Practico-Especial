@@ -10,10 +10,10 @@ public class TicketsDetailsDTO {
 
     public TicketsDetailsDTO(Long ticketId, Long timePaused, Long timeUse, Double feeExtra, Double feeBase, Long tripId) {
         this.ticketId = ticketId;
-        this.timePaused = timePaused;
         this.timeUse = timeUse;
-        this.feeExtra = feeExtra;
+        this.timePaused = timePaused;
         this.feeBase = feeBase;
+        this.feeExtra = feeExtra;
         this.tripId = tripId;
     }
 

@@ -5,9 +5,6 @@ import java.time.LocalDate;
 @Entity
 public class Fee {
 
-    public Fee(FeeType feeType, double newBaseFee, LocalDate startDate, Object o) {
-    }
-
     public enum FeeType {
         BASE,
         EXTRA_PAUSE
@@ -26,9 +23,9 @@ public class Fee {
         super();
     }
 
-    public Fee(LocalDate endDate, LocalDate startDate, double amount, FeeType type) {
-        this.endDate = endDate;
+    public Fee(LocalDate startDate, LocalDate endDate, double amount, FeeType type) {
         this.startDate = startDate;
+        this.endDate = endDate;
         this.amount = amount;
         this.type = type;
     }

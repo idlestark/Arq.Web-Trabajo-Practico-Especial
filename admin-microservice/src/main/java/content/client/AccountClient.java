@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@FeignClient(name = "user-microservice", url = "http://localhost:8001/account")
+@FeignClient(name = "user-microservice", url = "http://localhost:8006/account")
 public interface AccountClient {
 
     @PutMapping("/cancel-account/{id}")
