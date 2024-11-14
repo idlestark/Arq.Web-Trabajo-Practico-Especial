@@ -14,24 +14,28 @@ public class Scooter {
     private double longitude;
     private double kilometers;
     private double timeUsed;
+    private double baseFee;
+    private double extraFeePause;
     @ManyToOne
     @JoinColumn(name = "stop_id", nullable = false)
     private Stop stop;
 
-    public Scooter(Long id, double battery, boolean underMaintenance, boolean available, double latitude, double longitude, double kilometers, double timeUsed, Stop stop) {
-        this.id = id;
+
+    public Scooter(double battery, double latitude, double longitude,double kilometers, double timeUsed, Stop stop, double baseFee, double extraFeePause) {
         this.battery = battery;
-        this.underMaintenance = underMaintenance;
-        this.available = available;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.underMaintenance = false;
+        this.available = true;
         this.kilometers = kilometers;
         this.timeUsed = timeUsed;
         this.stop = stop;
+        this.baseFee = baseFee;
+        this.extraFeePause = extraFeePause;
     }
 
     public Scooter() {
-
+        super();
     }
 
     //GETTERS
@@ -53,6 +57,9 @@ public class Scooter {
 
     public double getBattery() { return battery; }
 
+    public double getBaseFee() { return baseFee; }
+
+    public double getExtraFeePause() { return extraFeePause; }
 
     //SETTERS
     public void setId(Long id) { this.id = id; }
@@ -73,4 +80,7 @@ public class Scooter {
 
     public void setStop(Stop stop) { this.stop = stop; }
 
+    public void setBaseFee(double baseFee) { this.baseFee = baseFee; }
+
+    public void setExtraFeePause(double extraFeePause) { this.extraFeePause = extraFeePause; }
 }

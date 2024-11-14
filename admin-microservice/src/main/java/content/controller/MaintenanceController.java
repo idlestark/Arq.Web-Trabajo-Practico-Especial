@@ -1,5 +1,5 @@
 package content.controller;
-import content.dto.ReportKilometerDTO;
+import content.DTO.ReportKilometerDTO;
 import content.entities.Maintenance;
 import content.service.MaintenanceService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class MaintenanceController {
 
     @GetMapping
     public ResponseEntity<List<Maintenance>> getAllMaintenances() {
-        List<Maintenance> maintenanceList = maintenanceService.findAll();
+        List<Maintenance> maintenanceList = maintenanceService.findAllMaintenance();
         if (maintenanceList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -26,7 +26,7 @@ public class MaintenanceController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Maintenance> getMaintenanceById(@PathVariable("id") Long id) {
-        Maintenance maintenance = maintenanceService.findById(id);
+        Maintenance maintenance = maintenanceService.findMaintenanceById(id);
         if (maintenance == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -35,7 +35,7 @@ public class MaintenanceController {
 
     @PostMapping
     public ResponseEntity<Maintenance> createMaintenance(@RequestBody Maintenance maintenance) {
-        Maintenance newMaintenance = maintenanceService.save(maintenance);
+        Maintenance newMaintenance = maintenanceService.saveMaintenance(maintenance);
         if (newMaintenance == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -44,13 +44,13 @@ public class MaintenanceController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMaintenance(@PathVariable("id") Long id) {
-        maintenanceService.delete(id);
+        maintenanceService.deleteMaintenance(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Maintenance> updateMaintenance(@PathVariable("id") Long id, @RequestBody Maintenance maintenance) {
-        Maintenance existentMaintenance = maintenanceService.findById(id);
+        Maintenance existentMaintenance = maintenanceService.findMaintenanceById(id);
 
         if (existentMaintenance == null) {
             return ResponseEntity.notFound().build();
@@ -61,7 +61,7 @@ public class MaintenanceController {
         existentMaintenance.setStartDate(maintenance.getStartDate());
         existentMaintenance.setFinishDate(maintenance.getFinishDate());
 
-        Maintenance updatedMaintenance = maintenanceService.update(existentMaintenance);
+        Maintenance updatedMaintenance = maintenanceService.updateMaintenance(existentMaintenance);
 
         return ResponseEntity.ok(updatedMaintenance);
     }

@@ -27,7 +27,6 @@ public class Account {
         this.active = true;
     }
 
-
     public Long getId() {
         return id;
     }

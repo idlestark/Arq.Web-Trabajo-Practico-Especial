@@ -1,8 +1,6 @@
 package content.entities;
 import jakarta.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class Trip {
     private double kilometers;
     private boolean inProgress;
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("tripe")
+    @JsonIgnoreProperties("trip")
     private List<Pause> pauses;
 
     public Trip() {
@@ -78,7 +76,7 @@ public class Trip {
         this.kilometers = kilometers;
     }
 
-    public boolean isinProgress() {
+    public boolean isInProgress() {
         return inProgress;
     }
 
@@ -86,15 +84,13 @@ public class Trip {
         this.inProgress = inProgress;
     }
 
-    public List<Pause> getPauses() {
-        return pauses;
-    }
+    public List<Pause> getPauses() { return pauses; }
 
     public void setPauses(List<Pause> pauses) {
         this.pauses = pauses;
     }
 
-    public double getTiempoUso() {
+    public double getTimeUsed() {
         if (startDate != null && endDate != null) {
             return Duration.between(startDate, endDate).toMinutes();
         }

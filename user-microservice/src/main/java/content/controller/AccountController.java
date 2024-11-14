@@ -16,7 +16,7 @@ public class AccountController {
 
     @GetMapping
     public ResponseEntity<List<Account>> getAllAccounts() {
-        List<Account> accountList = accountService.findAll();
+        List<Account> accountList = accountService.findAllAccounts();
         if (accountList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -25,7 +25,7 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Account> getAccountById(@PathVariable("id") Long id) {
-        Account account = accountService.findById(id);
+        Account account = accountService.findAccountById(id);
         if (account == null) {
             return ResponseEntity.notFound().build();
         }
@@ -34,7 +34,7 @@ public class AccountController {
 
     @PostMapping
     public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-        Account CreatedAccount = accountService.save(account);
+        Account CreatedAccount = accountService.saveAccount(account);
         if (CreatedAccount == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -43,13 +43,13 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable("id") Long id) {
-        accountService.delete(id);
+        accountService.deleteAccount(id);
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Account> updateAccount(@PathVariable("id") Long id, @RequestBody Account account) {
-        Account existentAccount = accountService.findById(id);
+        Account existentAccount = accountService.findAccountById(id);
 
         if (existentAccount == null) {
             return ResponseEntity.notFound().build();
@@ -58,7 +58,7 @@ public class AccountController {
         existentAccount.setRegistrationDate(account.getRegistrationDate());
         existentAccount.setBalance(account.getBalance());
 
-        Account updatedAccount = accountService.update(existentAccount);
+        Account updatedAccount = accountService.updateAccount(existentAccount);
 
         return ResponseEntity.ok(updatedAccount);
     }
@@ -66,7 +66,7 @@ public class AccountController {
     @PutMapping("/cancel/{id}")
     public ResponseEntity<Account> cancelAccount(@PathVariable("id") long id) {
 
-        Account account = accountService.findById(id);
+        Account account = accountService.findAccountById(id);
 
         accountService.cancelAccount(account);
 

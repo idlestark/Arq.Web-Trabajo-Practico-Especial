@@ -17,7 +17,7 @@ public class FeeController {
 
     @GetMapping
     public ResponseEntity<List<Fee>> getAllTickets() {
-        List<Fee> ticket = feeService.findAll();
+        List<Fee> ticket = feeService.findAllFees();
         if(ticket.isEmpty()){
             return ResponseEntity.noContent().build();
         }
@@ -26,7 +26,7 @@ public class FeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Fee> getTicketById(@PathVariable("id") Long id) {
-        Fee fee = feeService.findById(id);
+        Fee fee = feeService.findFeeById(id);
         if(fee == null){
             return ResponseEntity.badRequest().build();
         }
@@ -35,22 +35,22 @@ public class FeeController {
 
     @PostMapping
     public ResponseEntity<Fee> createFee(@RequestBody Fee fee){
-        Fee newFee = feeService.save(fee);
+        Fee newFee = feeService.saveFee(fee);
         if(newFee == null) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(newFee);
     }
 
-    @DeleteMapping("/{id]")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFee(@PathVariable("id") Long id) {
-        feeService.delete(id);
+        feeService.deleteFee(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Fee> updateFee(@PathVariable("id") Long id, @RequestBody Fee fee){
-        Fee existentFee = feeService.findById(id);
+        Fee existentFee = feeService.findFeeById(id);
         if(existentFee == null){
             return ResponseEntity.notFound().build();
         }
@@ -60,7 +60,7 @@ public class FeeController {
         existentFee.setEndDate(fee.getEndDate());
         existentFee.setAmount(fee.getAmount());
 
-        Fee updatedFee = feeService.save(existentFee);
+        Fee updatedFee = feeService.saveFee(existentFee);
 
         return ResponseEntity.ok(updatedFee);
     }

@@ -1,8 +1,8 @@
 package content.service;
-import content.client.ScooterClient;
+import content.client.AdminScooterClient;
 import content.client.TripClient;
-import content.dto.ReportKilometerDTO;
-import content.dto.TripDTO;
+import content.DTO.ReportKilometerDTO;
+import content.DTO.TripDTO;
 import content.entities.Maintenance;
 import content.repository.MaintenanceRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,31 +18,31 @@ import java.util.stream.Collectors;
 public class MaintenanceService {
 
     private final MaintenanceRepository maintenanceRepository;
-    private final ScooterClient scooterClient;
+    private final AdminScooterClient adminScooterClient;
     private final TripClient tripClient;
 
     @Transactional(readOnly = true)
-    public List<Maintenance> findAll() {
+    public List<Maintenance> findAllMaintenance() {
         return maintenanceRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Maintenance findById(Long id) {
+    public Maintenance findMaintenanceById(Long id) {
         return maintenanceRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public Maintenance save(Maintenance maintenance) {
+    public Maintenance saveMaintenance(Maintenance maintenance) {
         return maintenanceRepository.save(maintenance);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteMaintenance(Long id) {
         maintenanceRepository.deleteById(id);
     }
 
     @Transactional
-    public Maintenance update(Maintenance maintenance) {
+    public Maintenance updateMaintenance(Maintenance maintenance) {
         return maintenanceRepository.save(maintenance);
     }
 
@@ -59,8 +59,8 @@ public class MaintenanceService {
         maintenance.setDescription(description);
         maintenanceRepository.save(maintenance);
 
-        scooterClient.updateAvailability(scooterId, false);
-        scooterClient.updateMaintenanceStatus(scooterId, true);
+        adminScooterClient.updateAvailability(scooterId, false);
+        adminScooterClient.updateMaintenanceStatus(scooterId, true);
 
         return maintenance;
     }
@@ -73,8 +73,8 @@ public class MaintenanceService {
         maintenance.setFinishDate(LocalDateTime.now());
         maintenanceRepository.save(maintenance);
 
-        scooterClient.updateAvailability(scooterId, true);
-        scooterClient.updateMaintenanceStatus(scooterId, false);
+        adminScooterClient.updateAvailability(scooterId, true);
+        adminScooterClient.updateMaintenanceStatus(scooterId, false);
 
         return maintenance;
     }

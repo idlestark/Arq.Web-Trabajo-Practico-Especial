@@ -15,27 +15,27 @@ public class TicketDetailsService {
     private final TicketDetailsRepository ticketDetailsRepository;
 
     @Transactional(readOnly = true)
-    public List<TicketDetails> findAll(){
+    public List<TicketDetails> findAllTicketDetails(){
         return ticketDetailsRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public TicketDetails findById(Long id){
+    public TicketDetails findTicketDetailsById(Long id){
         return ticketDetailsRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public TicketDetails save(TicketDetails ticketDetails){
+    public TicketDetails saveTicketDetails(TicketDetails ticketDetails){
         return ticketDetailsRepository.save(ticketDetails);
     }
 
     @Transactional
-    public TicketDetails update(TicketDetails ticketDetails){
+    public TicketDetails updateTicketDetails(TicketDetails ticketDetails){
         return ticketDetailsRepository.save(ticketDetails);
     }
 
     @Transactional
-    public void delete(Long id){
+    public void deleteTicketDetails(Long id){
         ticketDetailsRepository.deleteById(id);
     }
 }

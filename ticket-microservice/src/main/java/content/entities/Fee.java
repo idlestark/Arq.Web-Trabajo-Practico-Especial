@@ -26,8 +26,7 @@ public class Fee {
         super();
     }
 
-    public Fee(Long id, LocalDate endDate, LocalDate startDate, double amount, FeeType type) {
-        this.id = id;
+    public Fee(LocalDate endDate, LocalDate startDate, double amount, FeeType type) {
         this.endDate = endDate;
         this.startDate = startDate;
         this.amount = amount;

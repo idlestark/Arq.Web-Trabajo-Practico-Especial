@@ -12,9 +12,20 @@ public class Stop {
     private String name;
     private double latitude;
     private double longitude;
-
     @OneToMany(mappedBy = "stop")
     private List<Scooter> scooterList;
+
+    public Stop() {
+        super();
+        this.scooterList = new ArrayList<>();
+    }
+
+    public Stop(String name, double latitude, double longitude) {
+        super();
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     public Long getId() {
         return id;
@@ -46,13 +57,5 @@ public class Stop {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public List<Scooter> getScooterList() {
-        return scooterList;
-    }
-
-    public void setScooterList(List<Scooter> scooterList) {
-        this.scooterList = scooterList;
     }
 }

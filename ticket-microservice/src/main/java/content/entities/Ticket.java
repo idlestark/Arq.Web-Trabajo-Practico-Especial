@@ -20,8 +20,7 @@ public class Ticket {
         this.ticketDetails = new ArrayList<>();
     }
 
-    public Ticket(Long id, Long userId, double amount, LocalDate dateOfIssue, List<TicketDetails> ticketDetails) {
-        this.id = id;
+    public Ticket(Long userId, double amount, LocalDate dateOfIssue, List<TicketDetails> ticketDetails) {
         this.userId = userId;
         this.amount = amount;
         this.dateOfIssue = dateOfIssue;

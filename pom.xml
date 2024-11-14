@@ -16,12 +16,11 @@
     <description>TP_Especial</description>
 
     <modules>
-        <module>scooter-microservice</module>
         <module>admin-microservice</module>
+        <module>scooter-microservice</module>
         <module>ticket-microservice</module>
         <module>trip-microservice</module>
         <module>user-microservice</module>
-        <module>src</module>
     </modules>
 
     <url/>
@@ -41,6 +40,13 @@
         <java.version>17</java.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.1.3</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

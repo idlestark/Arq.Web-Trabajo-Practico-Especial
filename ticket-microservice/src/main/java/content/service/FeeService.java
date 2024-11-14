@@ -14,27 +14,27 @@ public class FeeService {
     private final FeeRepository feeRepository;
 
     @Transactional(readOnly = true)
-    public List<Fee> findAll() {
+    public List<Fee> findAllFees() {
         return feeRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Fee findById(Long id) {
+    public Fee findFeeById(Long id) {
         return feeRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public Fee save(Fee fee) {
+    public Fee saveFee(Fee fee) {
         return feeRepository.save(fee);
     }
 
     @Transactional
-    public Fee update(Fee fee) {
+    public Fee updateFee(Fee fee) {
         return feeRepository.save(fee);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteFee(Long id) {
         feeRepository.deleteById(id);
     }
 

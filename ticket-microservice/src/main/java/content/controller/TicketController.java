@@ -1,6 +1,4 @@
 package content.controller;
-
-
 import content.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import content.entities.Ticket;
@@ -12,13 +10,13 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/ticket")
+@RequestMapping("/ticket")
 public class TicketController {
     private final TicketService ticketService;
 
     @GetMapping
-    public ResponseEntity<List<Ticket>> getAllTicket(){
-        List<Ticket> tickets = ticketService.findAll();
+    public ResponseEntity<List<Ticket>> getAllTickets(){
+        List<Ticket> tickets = ticketService.findAllTickets();
         if(tickets.isEmpty()){
             return ResponseEntity.noContent().build();
         }
@@ -27,7 +25,7 @@ public class TicketController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Ticket> getTicketById(@PathVariable("id") Long id){
-        Ticket ticket = ticketService.findById(id);
+        Ticket ticket = ticketService.findTicketById(id);
         if(ticket == null){
             return ResponseEntity.badRequest().build();
         }
@@ -36,7 +34,7 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket){
-        Ticket newTicket = ticketService.save(ticket);
+        Ticket newTicket = ticketService.saveTicket(ticket);
         if(newTicket == null){
            return ResponseEntity.badRequest().build();
         }
@@ -45,31 +43,29 @@ public class TicketController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Ticket> deleteTicket(@PathVariable("id") Long id){
-        ticketService.delete(id);
+        ticketService.deleteTicket(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Ticket> updateTicket(@PathVariable("id") Long id, @RequestBody Ticket ticket){
-        Ticket ticketExist = ticketService.findById(id);
+        Ticket existentTicket = ticketService.findTicketById(id);
 
-        if(ticketExist == null){
+        if(existentTicket == null){
             return ResponseEntity.notFound().build();
         }
 
-        ticketExist.setUserId(ticket.getUserId());
-        ticketExist.setDateOfIssue(ticket.getDateOfIssue());
+        existentTicket.setUserId(ticket.getUserId());
+        existentTicket.setDateOfIssue(ticket.getDateOfIssue());
 
-        Ticket ticketUpdated = ticketService.save(ticketExist);
+        Ticket ticketUpdated = ticketService.saveTicket(existentTicket);
 
         return ResponseEntity.ok(ticketUpdated);
     }
 
-    /*????????????????????????*/
-
-    @GetMapping("/total-invoiced")
-    public ResponseEntity<Double> TotalInvoiced(@RequestParam int year, @RequestParam int monthStart, @RequestParam int monthEnd){
-        double total = ticketService.getTotal(year, monthStart, monthEnd);
+    @GetMapping("/total-collected")
+    public ResponseEntity<Double> totalCollected(@RequestParam int year, @RequestParam int monthStart, @RequestParam int monthEnd){
+        double total = ticketService.getTotalCollected(year, monthStart, monthEnd);
         return ResponseEntity.ok(total);
     }
 

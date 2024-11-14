@@ -1,5 +1,5 @@
 package content.client;
-import content.dto.TripDTO;
+import content.DTO.TripDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

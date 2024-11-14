@@ -1,7 +1,7 @@
 package content.service;
-import content.entities.Scooter;
+import content.DTO.ScooterDTO;
 import content.entities.User;
-import content.client.ScooterClient;
+import content.client.UserScooterClient;
 import content.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,35 +15,35 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private final ScooterClient scooterClient;
+    private final UserScooterClient userScooterClient;
 
     @Transactional(readOnly = true)
-    public List<User> findAll() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public User findById(Long id) {
+    public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public User save(User user) {
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
     @Transactional
-    public User update(User user) {
+    public User updateUser(User user) {
         return userRepository.save(user);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
-    public List<Scooter> getNearbyScooters(double latitude, double longitude, double radius){
-        return scooterClient.getNearbyScooters(latitude, longitude, radius);
+    public List<ScooterDTO> getNearbyScooters(double latitude, double longitude, double radius){
+        return userScooterClient.getNearbyScooters(latitude, longitude, radius);
     }
 
 }

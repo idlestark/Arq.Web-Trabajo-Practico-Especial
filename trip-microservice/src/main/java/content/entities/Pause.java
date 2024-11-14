@@ -8,10 +8,9 @@ public class Pause {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private double duration;
+    private Long duration;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
@@ -21,23 +20,20 @@ public class Pause {
         super();
     }
 
-    public Pause(Trip trip, double duration, LocalDateTime endDate, LocalDateTime startDate, Long id) {
+    public Pause(Trip trip, Long duration, LocalDateTime endDate, LocalDateTime startDate) {
         this.trip = trip;
         this.duration = duration;
         this.endDate = endDate;
         this.startDate = startDate;
-        this.id = id;
     }
-
-    public void setViaje(Trip trip) { this.trip = trip; }
 
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
 
-    public double getDuration() { return duration; }
+    public Long getDuration() { return duration; }
 
-    public void setDuration(double duration) { this.duration = duration; }
+    public void setDuration(Long duration) { this.duration = duration; }
 
     public LocalDateTime getEndDate() { return endDate; }
 
@@ -47,7 +43,6 @@ public class Pause {
 
     public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
 
-    public Trip getTrip() { return trip; }
-
     public void setTrip(Trip trip) { this.trip = trip; }
+
 }

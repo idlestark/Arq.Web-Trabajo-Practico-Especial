@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface ScooterRepository extends JpaRepository<Scooter, Long> {
 
-    @Query("SELECT COUNT(m) FROM Scooter m WHERE m.availeable = true AND m.underMaintenance = false")
-    long countByOperativeAndAvaileable();
+    @Query("SELECT COUNT(m) FROM Scooter m WHERE m.available = true AND m.underMaintenance = false")
+    long countByOperativeAndAvailable();
 
     @Query("SELECT COUNT(m) FROM Scooter m WHERE m.underMaintenance = true")
     long countByUnderMaintenance();
@@ -22,4 +22,7 @@ public interface ScooterRepository extends JpaRepository<Scooter, Long> {
     List<Scooter> findNearbyScooters(@Param("latitude") double latitude,
                                           @Param("longitude") double longitude,
                                           @Param("radius") double radius);
+
+    @Query("SELECT s FROM Scooter s WHERE s.kilometers <= :km")
+    List<Scooter> finScootersByKilometers(@Param("km") double km);
 }

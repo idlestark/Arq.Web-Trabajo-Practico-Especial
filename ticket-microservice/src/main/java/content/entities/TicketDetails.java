@@ -21,8 +21,7 @@ public class TicketDetails {
         super();
     }
 
-    public TicketDetails(Long id, Ticket ticket, long tripId, double feeBase, double feeExtra, long timeUsed, long timePaused, double amount) {
-        this.id = id;
+    public TicketDetails(Ticket ticket, long tripId, double feeBase, double feeExtra, long timeUsed, long timePaused, double amount) {
         this.ticket = ticket;
         this.tripId = tripId;
         this.feeBase = feeBase;

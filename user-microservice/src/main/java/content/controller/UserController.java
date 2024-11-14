@@ -1,5 +1,5 @@
 package content.controller;
-import content.entities.Scooter;
+import content.DTO.ScooterDTO;
 import content.entities.User;
 import content.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
+        List<User> users = userService.findAllUsers();
         if (users.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-        User user = userService.findById(id);
+        User user = userService.findUserById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.save(user);
+        User createdUser = userService.saveUser(user);
         if (createdUser == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -44,13 +44,13 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
-        userService.delete(id);
+        userService.deleteUser(id);
         return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
-        User existingUsers = userService.findById(id);
+        User existingUsers = userService.findUserById(id);
 
         if (existingUsers == null) {
             return ResponseEntity.notFound().build();
@@ -61,14 +61,14 @@ public class UserController {
         existingUsers.setPhoneNumber(user.getPhoneNumber());
         existingUsers.setEmail(user.getEmail());
 
-        User updatedUser = userService.update(existingUsers);
+        User updatedUser = userService.updateUser(existingUsers);
 
         return ResponseEntity.ok(updatedUser);
     }
 
     @GetMapping("/scooter/nearby")
-    public ResponseEntity<List<Scooter>> getNearbyScooters(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius){
-        List<Scooter> scooter = userService.getNearbyScooters(latitude, longitude, radius);
+    public ResponseEntity<List<ScooterDTO>> getNearbyScooters(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius){
+        List<ScooterDTO> scooter = userService.getNearbyScooters(latitude, longitude, radius);
         if (scooter.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

@@ -17,27 +17,27 @@ public class AccountService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public List<Account> findAll() {
+    public List<Account> findAllAccounts() {
         return accountRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Account findById(Long id) {
+    public Account findAccountById(Long id) {
         return accountRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public Account save(Account account) {
+    public Account saveAccount(Account account) {
         return accountRepository.save(account);
     }
 
     @Transactional
-    public Account update(Account account) {
+    public Account updateAccount(Account account) {
         return accountRepository.save(account);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
 

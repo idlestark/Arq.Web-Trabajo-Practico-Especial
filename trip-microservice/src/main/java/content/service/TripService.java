@@ -18,40 +18,39 @@ public class TripService {
 
     private final TripRepository tripRepository;
 
-    private static long maxTimePaused = 15; //
-    private static double extraFee = 10.0; //
+    private static long pauseMaxTime = 15;
+    private static double extraFee = 10.0;
     private static double kilometerCost = 7.5;
     private final ContentNegotiatingViewResolver viewResolver;
 
     @Transactional(readOnly = true)
-    public List<Trip> findAll() {
+    public List<Trip> findAllTrips() {
         return tripRepository.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Trip findById(Long id) {
+    public Trip findTripById(Long id) {
         return tripRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public Trip save(Trip trip) {
+    public Trip saveTrip(Trip trip) {
         return tripRepository.save(trip);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteTrip(Long id) {
         tripRepository.deleteById(id);
     }
 
     @Transactional
-    public Trip update(Trip trip) {
+    public Trip updateTrip(Trip trip) {
         return tripRepository.save(trip);
     }
 
     @Transactional(readOnly = true)
-    public Double getTotalTimeWithPauses(Long tripid) {
-        Trip trip = tripRepository.findById(tripid)
-                .orElseThrow(() -> new RuntimeException("Trip not found"));
+    public Double getTotalTimeWithPauses(Long tripId) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
 
         double totalPauseInMinutes = 0;
 
@@ -62,28 +61,8 @@ public class TripService {
             }
         }
 
-        return trip.getTiempoUso() + totalPauseInMinutes;
+        return trip.getTimeUsed() + totalPauseInMinutes;
     }
-
-
-
-    @Transactional
-    public Trip endTrip(Long tripId, double kilometers) {
-
-        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
-
-        if (!trip.isinProgress()) {
-            throw new RuntimeException("Trip has already ended");
-        }
-
-        trip.setEndDate(LocalDateTime.now());
-        trip.setKilometers(kilometers);
-        trip.setInProgress(false);
-        tripRepository.save(trip);
-
-        return trip;
-    }
-
 
     public List<KilometersReportDTO> generateKilometersReport() {
         Map<Long, Double> scooterKilometers = new HashMap<>();
@@ -101,6 +80,50 @@ public class TripService {
         return reports;
     }
 
+    @Transactional
+    public Trip endTrip(Long tripId, double kilometers) {
 
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
+
+        if (!trip.isInProgress()) {
+            throw new RuntimeException("Trip has already ended");
+        }
+
+        trip.setEndDate(LocalDateTime.now());
+        trip.setKilometers(kilometers);
+        trip.setInProgress(false);
+        tripRepository.save(trip);
+
+        return trip;
+    }
+
+    public double calculateTripCost(long tripId) {
+        Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new RuntimeException("Trip not found"));
+        double total = 0.0;
+
+        if (mustApplyExtraFee(trip)) {
+            Duration time = getIncreasedPauseDuration(trip.getPauses());
+
+            if (time != null) {
+                double minutes = time.toMinutes() + (time.getSeconds() % 60) / 60.0;
+                total += minutes * extraFee;
+            }
+        }
+        total += trip.getTimeUsed() * kilometerCost;
+        return total;
+    }
+
+    public boolean mustApplyExtraFee(Trip trip) {
+        return trip.getPauses().stream().anyMatch(pause -> pause.getDuration() > pauseMaxTime);
+    }
+
+    public Duration getIncreasedPauseDuration(List<Pause> pauses) {
+        for (Pause pause : pauses) {
+            if (pause.getDuration() > pauseMaxTime) {
+                return Duration.ofMinutes(pause.getDuration()).plusMinutes(15);
+            }
+        }
+        return null;
+    }
 
 }

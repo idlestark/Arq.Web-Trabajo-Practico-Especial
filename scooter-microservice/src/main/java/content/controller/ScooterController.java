@@ -1,6 +1,9 @@
 package content.controller;
 import content.service.ScooterService;
 import content.entities.Scooter;
+import content.entities.Stop;
+import content.DTO.ScooterDTO;
+import content.service.StopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +17,12 @@ import java.util.Map;
 public class ScooterController {
 
     private final ScooterService scooterService;
+    private final StopService stopService;
 
 
     @GetMapping
     public ResponseEntity<List<Scooter>> getAllScooters() {
-        List<Scooter> scooterList = scooterService.findAll();
+        List<Scooter> scooterList = scooterService.findAllScooters();
         if (scooterList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -27,7 +31,7 @@ public class ScooterController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Scooter> getScooterById(@PathVariable("id") Long id) {
-        Scooter scooter = scooterService.findById(id);
+        Scooter scooter = scooterService.findScooterById(id);
         if (scooter == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -35,23 +39,25 @@ public class ScooterController {
     }
 
     @PostMapping
-    public ResponseEntity<Scooter> createScooter(@RequestBody Scooter scooter) {
-        Scooter scooterCreated = scooterService.save(scooter);
-        if (scooterCreated == null) {
+    public ResponseEntity<Scooter> createScooter(@RequestBody ScooterDTO scooterDTO) {
+        Stop stop = stopService.findStopById(scooterDTO.getStopId());
+        Scooter scooter = new Scooter(scooterDTO.getBattery(), scooterDTO.getLatitude(), scooterDTO.getLongitude(), scooterDTO.getKilometers(), scooterDTO.getTimeUsed(), stop, scooterDTO.getBaseFee(), scooterDTO.getExtraFeePause());
+        Scooter newScooter = scooterService.saveScooter(scooter);
+        if (newScooter == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(scooterCreated);
+        return ResponseEntity.ok(newScooter);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteScooter(@PathVariable("id") Long id) {
-        scooterService.delete(id);
+        scooterService.deleteScooter(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Scooter> updateScooter(@PathVariable("id") Long id, @RequestBody Scooter scooter) {
-        Scooter existentScooter = scooterService.findById(id);
+        Scooter existentScooter = scooterService.findScooterById(id);
 
         if (existentScooter == null) {
             return ResponseEntity.notFound().build();
@@ -64,14 +70,14 @@ public class ScooterController {
         existentScooter.setKilometers(scooter.getKilometers());
         existentScooter.setAvailability(scooter.isAvailable());
         existentScooter.setStop(scooter.getStop());
+        existentScooter.setBaseFee(scooter.getBaseFee());
 
-        Scooter scooterUpdated = scooterService.update(existentScooter);
+        Scooter updatedScooter = scooterService.updateScooter(existentScooter);
 
-        return ResponseEntity.ok(scooterUpdated);
+        return ResponseEntity.ok(updatedScooter);
     }
 
-
-    @GetMapping("/trips")
+    @GetMapping("/trips/{minTrips}/{year}")
     public ResponseEntity<List<Scooter>> getScootersWithMostTrips (@RequestParam int minTrips, @RequestParam int year) {
         List<Scooter> result = scooterService.getScootersWithMostTrips(minTrips, year);
         return ResponseEntity.ok(result);
@@ -87,5 +93,11 @@ public class ScooterController {
     public ResponseEntity<List<Scooter>> getNearbyScooters (@RequestParam double latitude, @RequestParam double longitude, @RequestParam double ratio) {
         List<Scooter> scooterList = scooterService.getNearbyScooters(latitude, longitude, ratio);
         return ResponseEntity.ok(scooterList);
+    }
+
+    @GetMapping("/report/kilometers/{km}")
+    public ResponseEntity<List<Scooter>> getReportKilometers(@PathVariable("km") Double km){
+        List<Scooter> scooters = scooterService.getScooterMoreKilometers(km);
+        return ResponseEntity.ok(scooters);
     }
 }

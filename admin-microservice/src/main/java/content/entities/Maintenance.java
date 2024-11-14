@@ -19,8 +19,7 @@ public class Maintenance {
     private LocalDateTime endDate;
 
 
-    public Maintenance(Long id, Long scooterId, String description, LocalDateTime startDate, LocalDateTime endDate) {
-        this.id = id;
+    public Maintenance(Long scooterId, String description, LocalDateTime startDate, LocalDateTime endDate) {
         this.scooterId = scooterId;
         this.description = description;
         this.startDate = startDate;

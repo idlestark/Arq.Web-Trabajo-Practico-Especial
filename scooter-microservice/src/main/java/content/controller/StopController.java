@@ -1,24 +1,22 @@
 package content.controller;
-
 import content.service.StopService;
 import content.entities.Stop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/api/parada")
+@RequestMapping("/stop")
 public class StopController {
 
     private final StopService stopService;
 
     @GetMapping
-    public ResponseEntity<List<Stop>> getAllParadas(){
-        List<Stop> stops = stopService.findAll();
+    public ResponseEntity<List<Stop>> getAllStops(){
+        List<Stop> stops = stopService.findAllStops();
         if(stops.isEmpty()){
             return ResponseEntity.noContent().build();
         }
@@ -26,8 +24,8 @@ public class StopController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Stop> getParadaById(@PathVariable("id") Long id){
-        Stop stop = stopService.findById(id);
+    public ResponseEntity<Stop> getStopById(@PathVariable("id") Long id){
+        Stop stop = stopService.findStopById(id);
         if(stop == null){
             return ResponseEntity.noContent().build();
         }
@@ -35,8 +33,8 @@ public class StopController {
     }
 
     @PostMapping
-    public ResponseEntity<Stop> createParada(@RequestBody Stop stop){
-        Stop stopCreated = stopService.save(stop);
+    public ResponseEntity<Stop> createStop(@RequestBody Stop stop){
+        Stop stopCreated = stopService.saveStop(stop);
         if(stopCreated == null){
             return ResponseEntity.noContent().build();
         }
@@ -44,24 +42,24 @@ public class StopController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Stop> deleteParada(@PathVariable("id") Long id){
-        stopService.delete(id);
+    public ResponseEntity<Stop> deleteStop(@PathVariable("id") Long id){
+        stopService.deleteStop(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Stop> updateParada(@PathVariable("id") Long id, @RequestBody Stop stop){
-        Stop stopExistente = stopService.findById(id);
-        if(stopExistente == null){
+    public ResponseEntity<Stop> updateStop(@PathVariable("id") Long id, @RequestBody Stop stop){
+        Stop existentStop = stopService.findStopById(id);
+        if(existentStop == null){
             return ResponseEntity.noContent().build();
         }
 
-        stopExistente.setName(stop.getName());
-        stopExistente.setLatitude(stop.getLatitude());
-        stopExistente.setLongitude(stop.getLongitude());
+        existentStop.setName(stop.getName());
+        existentStop.setLatitude(stop.getLatitude());
+        existentStop.setLongitude(stop.getLongitude());
 
-        Stop stopUpdated = stopService.save(stopExistente);
+        Stop updatedStop = stopService.saveStop(existentStop);
 
-        return ResponseEntity.ok(stopUpdated);
+        return ResponseEntity.ok(updatedStop);
     }
 }
