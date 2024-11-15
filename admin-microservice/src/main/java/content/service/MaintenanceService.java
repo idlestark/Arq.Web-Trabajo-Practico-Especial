@@ -49,13 +49,9 @@ public class MaintenanceService {
     @Transactional
     public Maintenance startMaintenance(Long scooterId, String description) {
 
-        //if (maintenanceRepository.findByScooter(scooterId)) {
-        //    throw new RuntimeException("Requested scooter is already under maintenance");
-        //}
-
-        //if (maintenanceRepository.findById(scooterId) == null) {
-        //     throw new RuntimeException("Requested scooter is already under maintenance");
-        //}
+        if (maintenanceRepository.findByScooter(scooterId)) {
+            throw new RuntimeException("Requested scooter is already under maintenance");
+        }
 
         Maintenance maintenance = new Maintenance();
         maintenance.setScooterId(scooterId);

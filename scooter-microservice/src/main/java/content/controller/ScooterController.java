@@ -77,6 +77,19 @@ public class ScooterController {
         return ResponseEntity.ok(updatedScooter);
     }
 
+    @PutMapping("/{id}/is-available")
+    public ResponseEntity<Scooter> updateAvailability(@PathVariable("id") Long id, @RequestParam("available") boolean available) {
+        Scooter scooter = scooterService.findScooterById(id);
+
+        if(scooter == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        scooter.setAvailability(available);
+        scooterService.updateScooter(scooter);
+        return ResponseEntity.ok(scooter);
+    }
+
     @GetMapping("/trips/{minTrips}/{year}")
     public ResponseEntity<List<Scooter>> getScootersWithMostTrips (@RequestParam int minTrips, @RequestParam int year) {
         List<Scooter> result = scooterService.getScootersWithMostTrips(minTrips, year);

@@ -13,7 +13,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin")
 
-public class adminController {
+public class AdminController {
 
     private final AdminService adminService;
 
