@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> {
+
     @Query("SELECT m FROM Maintenance m WHERE m.scooterId = :scooterId")
-    boolean findByScooter(Long scooterId);
+    Maintenance findByScooter(Long scooterId);
+
 }

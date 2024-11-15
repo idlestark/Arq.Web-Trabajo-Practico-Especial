@@ -63,7 +63,7 @@ public class AccountController {
         return ResponseEntity.ok(updatedAccount);
     }
 
-    @PutMapping("/cancel/{id}")
+    @PutMapping("/cancel-account/{id}")
     public ResponseEntity<Account> cancelAccount(@PathVariable("id") long id) {
 
         Account account = accountService.findAccountById(id);

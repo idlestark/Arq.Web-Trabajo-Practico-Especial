@@ -36,7 +36,7 @@ public class TripController {
     }
 
     @PostMapping
-    public ResponseEntity<Trip> createtrip(@RequestBody Trip Trip){
+    public ResponseEntity<Trip> createTrip(@RequestBody Trip Trip) {
         Trip tripCreated = tripService.saveTrip(Trip);
         if(tripCreated == null){
             return ResponseEntity.noContent().build();
@@ -45,7 +45,7 @@ public class TripController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Trip> deletetrip(@PathVariable("id") Long id){
+    public ResponseEntity<Trip> deleteTrip(@PathVariable("id") Long id){
         tripService.deleteTrip(id);
         return ResponseEntity.noContent().build();
     }
