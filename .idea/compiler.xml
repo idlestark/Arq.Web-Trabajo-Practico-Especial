@@ -12,13 +12,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="eureka-service" />
+        <module name="ticket-microservice" />
         <module name="scooter-microservice" />
-        <module name="TP_Especial" />
+        <module name="admin-microservice" />
+        <module name="trip-microservice" />
         <module name="service-fact" />
         <module name="microservicio-administrador" />
         <module name="microservicio-car" />
         <module name="Trip-microservice" />
+        <module name="gateway" />
         <module name="user-microservice" />
+      </profile>
+      <profile name="Annotation profile for eureka-service" enabled="true">
+        <sourceOutputDir name="eureka-service/target/generated-sources/annotations" />
+        <sourceTestOutputDir name="eureka-service/target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="TP_Especial" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -30,12 +40,17 @@
       <module name="TP-Especial" options="-parameters" />
       <module name="TP_Especial" options="-parameters" />
       <module name="Trip-microservice" options="-parameters" />
+      <module name="admin-microservice" options="-parameters" />
+      <module name="eureka-service" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="microservicio-administrador" options="-parameters" />
       <module name="microservicio-car" options="-parameters" />
       <module name="microserviciosLuigiCode" options="-parameters" />
       <module name="scooter-microservice" options="-parameters" />
       <module name="service-fact" options="-parameters" />
       <module name="src" options="-parameters" />
+      <module name="ticket-microservice" options="-parameters" />
+      <module name="trip-microservice" options="-parameters" />
       <module name="user-microservice" options="-parameters" />
     </option>
   </component>
