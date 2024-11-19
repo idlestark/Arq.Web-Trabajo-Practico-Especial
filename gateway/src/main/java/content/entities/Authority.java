@@ -1,4 +1,4 @@
-package content.entity;
+package content.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -14,4 +14,5 @@ public class Authority {
 
     @Id
     private String name;
+
 }

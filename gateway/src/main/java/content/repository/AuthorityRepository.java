@@ -1,5 +1,5 @@
 package content.repository;
-import com.grupo08.unicen.gateway.entity.Authority;
+import content.entities.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

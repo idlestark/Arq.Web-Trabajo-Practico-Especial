@@ -1,4 +1,4 @@
-package content.entity;
+package content.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

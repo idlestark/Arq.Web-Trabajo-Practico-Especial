@@ -1,6 +1,6 @@
 package content.config;
-import com.grupo08.unicen.gateway.security.jwt.JwtFilter;
-import com.grupo08.unicen.gateway.security.jwt.TokenProvider;
+import content.security.jwt.JwtFilter;
+import content.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -35,7 +35,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http
-                .securityMatcher("/api/**")
+                .securityMatcher("/**")
                 .authorizeHttpRequests(authorize -> authorize
                         // TODO: configurar endpoints y los roles necesarios para cada uno con AuthorityConstant
                         .anyRequest().authenticated()

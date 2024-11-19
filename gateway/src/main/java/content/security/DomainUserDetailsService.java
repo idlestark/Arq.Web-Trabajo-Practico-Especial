@@ -1,8 +1,7 @@
 package content.security;
-
-import com.grupo08.unicen.gateway.entity.Authority;
-import com.grupo08.unicen.gateway.entity.User;
-import com.grupo08.unicen.gateway.repository.UserRepository;
+import content.entities.Authority;
+import content.entities.User;
+import content.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +34,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         return userRepository
                 .findOneWithAuthoritiesByUsernameIgnoreCase( username.toLowerCase() )
                 .map( this::createSpringSecurityUser )
-                .orElseThrow( () -> new UsernameNotFoundException( "El usuario " + username + " no existe" ) );
+                .orElseThrow( () -> new UsernameNotFoundException( "User '" + username + "' does not exist" ) );
     }
 
     private UserDetails createSpringSecurityUser( User user ) {

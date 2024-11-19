@@ -12,27 +12,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="eureka-service" />
-        <module name="ticket-microservice" />
         <module name="scooter-microservice" />
         <module name="admin-microservice" />
         <module name="trip-microservice" />
+        <module name="TP_Especial" />
         <module name="service-fact" />
         <module name="microservicio-administrador" />
-        <module name="microservicio-car" />
         <module name="Trip-microservice" />
-        <module name="gateway" />
         <module name="user-microservice" />
-      </profile>
-      <profile name="Annotation profile for eureka-service" enabled="true">
-        <sourceOutputDir name="eureka-service/target/generated-sources/annotations" />
-        <sourceTestOutputDir name="eureka-service/target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="TP_Especial" />
+        <module name="eureka-service" />
+        <module name="ticket-microservice" />
+        <module name="microservicio-car" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="src" target="17" />
+      <module name="TP_Especial (1)" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

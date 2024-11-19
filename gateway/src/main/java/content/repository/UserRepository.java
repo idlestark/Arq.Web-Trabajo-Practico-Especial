@@ -1,5 +1,5 @@
 package content.repository;
-import com.grupo08.unicen.gateway.entity.User;
+import content.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
