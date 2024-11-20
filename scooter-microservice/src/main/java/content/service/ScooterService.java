@@ -44,7 +44,7 @@ public class ScooterService {
     public Map<String, Long> getScooterStatus() {
         long operative = scooterRepository.countByOperativeAndAvailable();
         long underMaintenance = scooterRepository.countByUnderMaintenance();
-        return Map.of("Operative", operative, "Under maintenance", underMaintenance);
+        return Map.of("Operative and available", operative, "Under maintenance", underMaintenance);
     }
 
 
@@ -56,7 +56,7 @@ public class ScooterService {
         return clientTrip.getScootersWithMostTrips(minTrips, year);
     }
 
-    public List<Scooter> getScooterMoreKilometers(Double km) {
-        return scooterRepository.finScootersByKilometers(km);
+    public List<Scooter> getKilometersReport(Double km) {
+        return scooterRepository.getKilometersReport(km);
     }
 }

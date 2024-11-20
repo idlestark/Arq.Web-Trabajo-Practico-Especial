@@ -67,13 +67,13 @@ public class MaintenanceController {
     }
 
     @PostMapping("/start/{scooterId}")
-    public ResponseEntity<Maintenance> startMaintenance (@PathVariable Long scooterId, @RequestBody(required = false) String description) {
+    public ResponseEntity<Maintenance> startMaintenance (@PathVariable("scooterId") Long scooterId, @RequestBody String description) {
         Maintenance newMaintenance = maintenanceService.startMaintenance(scooterId, description);
         return ResponseEntity.ok(newMaintenance);
     }
 
     @PutMapping("/end/{scooterId}")
-    public ResponseEntity<Maintenance> endMaintenance(@PathVariable Long scooterId) {
+    public ResponseEntity<Maintenance> endMaintenance(@PathVariable("scooterId") Long scooterId) {
         Maintenance maintenance = maintenanceService.endMaintenance(scooterId);
         return ResponseEntity.ok(maintenance);
     }

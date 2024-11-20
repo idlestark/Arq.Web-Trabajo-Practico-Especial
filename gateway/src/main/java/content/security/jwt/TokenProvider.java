@@ -1,5 +1,4 @@
 package content.security.jwt;
-
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKey;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,10 +35,9 @@ public class TokenProvider {
         byte[] keyBytes = Decoders.BASE64.decode( SECRET );
         this.secretKey = Keys.hmacShaKeyFor( keyBytes );
         this.jwtParser = Jwts.parser().verifyWith( secretKey ).build();
-        this.tokenValidityInMilliseconds = 1000 * 86400; // valido por 1 dia
+        this.tokenValidityInMilliseconds = 1000 * 86400;
     }
 
-    // TODO: getAuthentication
     public String createToken( Authentication authentication ) {
         String authorities = authentication.getAuthorities().stream().map( GrantedAuthority::getAuthority ).collect( Collectors.joining(",") );
 
@@ -87,7 +84,6 @@ public class TokenProvider {
         }
         return false;
     }
-
 
     private void checkTokenExpiration( Jws<Claims> token ){
         try {

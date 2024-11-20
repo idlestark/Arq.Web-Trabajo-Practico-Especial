@@ -10,7 +10,7 @@ public interface ScooterClient {
     @PutMapping("/{id}/is-available")
     void updateAvailability(@PathVariable("id") Long id, @RequestParam("available") boolean available);
 
-    @PutMapping("/{id}/is-under-maintenance")
+    @PutMapping("/{id}/is-under-maintenance-status")
     void updateMaintenanceStatus(@PathVariable("id") Long id, @RequestParam("underMaintenance") boolean available);
 
     @GetMapping("/status")

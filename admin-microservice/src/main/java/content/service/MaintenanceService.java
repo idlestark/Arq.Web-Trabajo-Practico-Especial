@@ -53,10 +53,7 @@ public class MaintenanceService {
             throw new RuntimeException("Requested scooter is already under maintenance");
         }
 
-        Maintenance maintenance = new Maintenance();
-        maintenance.setScooterId(scooterId);
-        maintenance.setStartDate(LocalDateTime.now());
-        maintenance.setDescription(description);
+        Maintenance maintenance = new Maintenance(scooterId, description, LocalDateTime.now(), null);
         maintenanceRepository.save(maintenance);
 
         scooterClient.updateAvailability(scooterId, false);

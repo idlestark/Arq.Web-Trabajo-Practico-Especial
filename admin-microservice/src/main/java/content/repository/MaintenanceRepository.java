@@ -9,5 +9,4 @@ public interface MaintenanceRepository extends JpaRepository<Maintenance, Long> 
 
     @Query("SELECT COUNT(m) > 0 FROM Maintenance m WHERE m.scooterId =:scooterId")
     boolean findByScooter(Long scooterId);
-
 }

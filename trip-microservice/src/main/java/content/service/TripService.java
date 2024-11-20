@@ -64,7 +64,7 @@ public class TripService {
         return trip.getTimeUsed() + totalPauseInMinutes;
     }
 
-    public List<KilometersReportDTO> generateKilometersReport() {
+    public List<KilometersReportDTO> getKilometersReport() {
         Map<Long, Double> scooterKilometers = new HashMap<>();
         List<Trip> trips = tripRepository.findAll();
 

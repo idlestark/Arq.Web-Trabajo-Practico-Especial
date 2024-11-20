@@ -1,51 +1,52 @@
+server:
+  port: 8009
+
 spring:
   application:
     name: gateway
-  config:
-    import: optional:configserver:http://localhost:8081
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/auth?createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+  main:
+    allow-bean-definition-overriding: true
+logging:
+  level:
+    org.springframework.security: DEBUG
+    io.jsonwebtoken: DEBUG
+
+
   cloud:
     gateway:
       routes:
-        - id: microservice-journey
-          uri: lb://microservice-journey
+        - id: user-microservice
+          uri: http://localhost:8006
           predicates:
-            - Path=/api/journeys/**
-            - Path=/api/fees/**
-            - Path=/api/pauses/**
-          filters:
-            - StripPrefix=1
-        - id: microservice-maintenance
-          uri: lb://microservice-maintenance
+            - Path=/user/**
+            - Path=/account/**
+        - id: scooter-microservice
+          uri: http://localhost:8002
           predicates:
-            - Path=/api/maintenances/**
-          filters:
-            - StripPrefix=1
-        - id: microservice-monopatin
-          uri: lb://microservice-monopatin
+            - Path=/scooter/**
+            - Path=/stop/**
+        - id: ticket-microservice
+          uri: http://localhost:8008
           predicates:
-            - Path=/api/monopatines/**
-            - Path=/api/stops/**
-          filters:
-            - StripPrefix=1
-        - id: microservice-user
-          uri: lb://microservice-user
+            - Path=/ticket/**
+            - Path=/ticket-details/**
+            - Path=/fee/**
+        - id: admin-microservice
+          uri: http://localhost:8003
           predicates:
-            - Path=/api/users/**
-            - Path=/api/accounts/**
-          filters:
-            - StripPrefix=1
-server:
-  port: 8080
-
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
-  instance:
-    hostname: localhost
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
+            - Path=/maintenance/**
+            - Path=/admin/**
+        - id: trip-microservice
+          uri: http://localhost:8005
+          predicates:
+            - Path=/trip/**
+            - Path=/pause/**

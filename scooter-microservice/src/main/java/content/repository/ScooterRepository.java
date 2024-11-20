@@ -24,5 +24,5 @@ public interface ScooterRepository extends JpaRepository<Scooter, Long> {
                                           @Param("radius") double radius);
 
     @Query("SELECT s FROM Scooter s WHERE s.kilometers <= :km")
-    List<Scooter> finScootersByKilometers(@Param("km") double km);
+    List<Scooter> getKilometersReport(@Param("km") double km);
 }

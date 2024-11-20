@@ -31,7 +31,7 @@ public class AdminController {
     }
 
     @GetMapping("/scooters/compare")
-    public ResponseEntity<Map<String, Long>> scooterVS(){
+    public ResponseEntity<Map<String, Long>> scooterVS() {
         Map<String, Long>  result = adminService.getScooterStatus();
         return ResponseEntity.ok(result);
     }

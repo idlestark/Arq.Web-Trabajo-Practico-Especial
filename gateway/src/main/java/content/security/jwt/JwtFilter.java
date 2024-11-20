@@ -36,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             }
         } catch(ExpiredJwtException e) {
-            log.info( "REST request UNAUTHORIZED - La sesión ha expirado." );
+            log.info( "REST request UNAUTHORIZED - Session has expired" );
             response.setStatus( 498 );
             response.setContentType( MediaType.APPLICATION_JSON_VALUE );
             response.getWriter().write( new JwtErrorDTO().toJson() );
