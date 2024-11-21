@@ -57,6 +57,7 @@ public class PauseController {
         Pause updatedPause = pauseService.updatePause(id, pause);
         return updatedPause != null ? ResponseEntity.ok(updatedPause) : ResponseEntity.notFound().build();
     }
+
     @Operation(summary = "Delete pause", description = "Deletes an existent pause")
     @ApiResponse(responseCode = "200", description = "Pause deleted successfully")
     @DeleteMapping("/{id}")

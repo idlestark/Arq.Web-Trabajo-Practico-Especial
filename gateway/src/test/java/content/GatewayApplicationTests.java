@@ -1,4 +1,4 @@
-package com.grupo08.unicen.gateway;
+package content;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

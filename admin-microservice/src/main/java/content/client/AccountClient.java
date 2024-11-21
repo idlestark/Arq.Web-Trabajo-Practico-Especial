@@ -7,7 +7,7 @@ import java.util.List;
 @FeignClient(name = "user-microservice", url = "http://localhost:8006/account")
 public interface AccountClient {
 
-    @PutMapping("/cancel-account/{id}")
+    @PutMapping("/cancel/{id}")
     void cancelAccount(@PathVariable("id") long id);
 
     @GetMapping("/trips/{minTrip}/{year}")

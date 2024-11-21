@@ -61,10 +61,11 @@ public class TripController {
         tripService.deleteTrip(id);
         return ResponseEntity.noContent().build();
     }
+
     @Operation(summary = "Update trip", description = "Updates an existent trip with the given information")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Ticket updated successfully"),
-            @ApiResponse(responseCode = "404", description = "Ticket not found")
+            @ApiResponse(responseCode = "204", description = "Trip updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Trip not found")
     })
     @PutMapping("/{id}")
     public ResponseEntity<Trip> updateTrip(@PathVariable("id") Long id, @RequestBody Trip trip){
@@ -83,13 +84,20 @@ public class TripController {
         return ResponseEntity.ok(updatedTrip);
     }
 
-
+    @Operation(summary = "Get total time with pauses", description = "Gets the total time with pauses")
+    @ApiResponse(responseCode = "200", description = "Total time with pauses obtained successfully")
     @GetMapping("/{tripId}/total-time-with-pauses")
     public ResponseEntity<Double> getTotalTimeWithPauses(@PathVariable("tripId") Long tripId) {
         Double totalTimeWithPauses = tripService.getTotalTimeWithPauses(tripId);
         return ResponseEntity.ok(totalTimeWithPauses);
     }
 
+
+    @Operation(summary = "End trip", description = "Ends a trip specified by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Trip ended successfully"),
+            @ApiResponse(responseCode = "404", description = "Trip not found")
+    })
     @PutMapping("/{tripId}/finish")
     public ResponseEntity<Trip> endTrip(@PathVariable Long tripId, @RequestParam double kilometers) {
         try {
@@ -100,6 +108,11 @@ public class TripController {
         }
     }
 
+    @Operation(summary = "Add pause", description = "Adds a pause to a trip, specified by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Pause added successfully"),
+            @ApiResponse(responseCode = "404", description = "Pause not found")
+    })
     @PutMapping("/addPause/{id}")
     public ResponseEntity<Trip> addPause(@PathVariable("id") Long id, @RequestBody Pause pause) {
         Trip existingTrip = tripService.findTripById(id);
@@ -113,6 +126,8 @@ public class TripController {
         return ResponseEntity.ok(existingTrip);
     }
 
+    @Operation(summary = "Get kilometers report", description = "Gets the kilometer report")
+    @ApiResponse(responseCode = "200", description = "Kilometers report obtained successfully")
     @GetMapping("/kilometers-report")
     public ResponseEntity<List<KilometersReportDTO>> getKilometersReport() {
         List<KilometersReportDTO> report = tripService.getKilometersReport();

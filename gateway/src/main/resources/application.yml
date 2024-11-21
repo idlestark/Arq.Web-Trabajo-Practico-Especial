@@ -4,49 +4,53 @@ server:
 spring:
   application:
     name: gateway
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/auth?createDatabaseIfNotExist=true
     username: root
+    password: admin
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
   main:
     allow-bean-definition-overriding: true
+
+cloud:
+  gateway:
+    routes:
+      - id: user-microservice
+        uri: http://localhost:8006
+        predicates:
+          - Path=/user/**
+          - Path=/account/**
+      - id: scooter-microservice
+        uri: http://localhost:8002
+        predicates:
+          - Path=/scooter/**
+          - Path=/stop/**
+      - id: ticket-microservice
+        uri: http://localhost:8008
+        predicates:
+          - Path=/ticket/**
+          - Path=/ticket-details/**
+          - Path=/fee/**
+      - id: admin-microservice
+        uri: http://localhost:8003
+        predicates:
+          - Path=/maintenance/**
+          - Path=/admin/**
+      - id: trip-microservice
+        uri: http://localhost:8005
+        predicates:
+          - Path=/trip/**
+          - Path=/pause/**
+
 logging:
   level:
     org.springframework.security: DEBUG
     io.jsonwebtoken: DEBUG
-
-
-  cloud:
-    gateway:
-      routes:
-        - id: user-microservice
-          uri: http://localhost:8006
-          predicates:
-            - Path=/user/**
-            - Path=/account/**
-        - id: scooter-microservice
-          uri: http://localhost:8002
-          predicates:
-            - Path=/scooter/**
-            - Path=/stop/**
-        - id: ticket-microservice
-          uri: http://localhost:8008
-          predicates:
-            - Path=/ticket/**
-            - Path=/ticket-details/**
-            - Path=/fee/**
-        - id: admin-microservice
-          uri: http://localhost:8003
-          predicates:
-            - Path=/maintenance/**
-            - Path=/admin/**
-        - id: trip-microservice
-          uri: http://localhost:8005
-          predicates:
-            - Path=/trip/**
-            - Path=/pause/**

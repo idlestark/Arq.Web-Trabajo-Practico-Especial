@@ -36,6 +36,7 @@ public class DomainUserDetailsService implements UserDetailsService {
                 .orElseThrow( () -> new UsernameNotFoundException( "User '" + username + "' does not exist" ) );
     }
 
+
     private UserDetails createSpringSecurityUser( User user ) {
         List<GrantedAuthority> grantedAuthorities = user
                 .getAuthorities()

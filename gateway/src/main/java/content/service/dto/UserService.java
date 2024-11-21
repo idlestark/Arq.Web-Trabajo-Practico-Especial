@@ -1,5 +1,4 @@
 package content.service.dto;
-
 import content.entities.User;
 import content.repository.AuthorityRepository;
 import content.repository.UserRepository;
@@ -8,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +17,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
 
-    public long saveUser( UserDTO request ) {
+    public long saveUser(UserDTO request ) {
         final var user = new User( request.getUsername() );
         user.setPassword( passwordEncoder.encode( request.getPassword() ) );
         final var roles =  this.authorityRepository.findAllById( request.getAuthorities() );
@@ -27,4 +25,5 @@ public class UserService {
         final var result = this.userRepository.save( user );
         return result.getId();
     }
+
 }

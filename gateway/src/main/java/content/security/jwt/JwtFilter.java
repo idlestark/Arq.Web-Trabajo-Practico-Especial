@@ -1,18 +1,31 @@
 package content.security.jwt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.DispatcherType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.time.LocalDateTime;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -30,18 +43,21 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String jwt = resolveToken(request);
+        String jwt = resolveToken( request );
         try {
-            if(StringUtils.hasText(jwt) &&  this.tokenProvider.validateToken(jwt)) {
-
+            if ( StringUtils.hasText(jwt) && this.tokenProvider.validateToken( jwt ) ) {
+                Authentication authentication = this.tokenProvider.getAuthentication( jwt );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch(ExpiredJwtException e) {
+
+        } catch ( ExpiredJwtException e ) {
             log.info( "REST request UNAUTHORIZED - Session has expired" );
             response.setStatus( 498 );
             response.setContentType( MediaType.APPLICATION_JSON_VALUE );
             response.getWriter().write( new JwtErrorDTO().toJson() );
             return;
         }
+        filterChain.doFilter(request, response);
     }
 
     private String resolveToken( HttpServletRequest request ) {

@@ -32,8 +32,8 @@ public class AdminService {
         return scooterClient.getScooterStatus();
     }
 
-    public double getTotalInvoiced(int year, int monthStart, int monthEnd) {
-        return ticketClient.getTotalInvoiced(year, monthStart, monthEnd);
+    public double getTotalCollected(int year, int monthStart, int monthEnd) {
+        return ticketClient.getTotalCollected(year, monthStart, monthEnd);
     }
 
     public void updatePrices(double newBaseFee, double newExtraFee, LocalDate startDate) {

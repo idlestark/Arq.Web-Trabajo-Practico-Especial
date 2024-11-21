@@ -22,13 +22,9 @@ public class TokenProvider {
 
     private static final String SECRET = "j7ZookpUTYxclaULynjypGQVKMYXqOXMI+/1sQ2gOV1BF6VOHw6OzYj9RNZY4GcHAE3Igrah3MZ26oLrY/3y4Q==";
     private static final String AUTHORITIES_KEY = "auth";
-
     private static final String INVALID_JWT_TOKEN = "Invalid JWT token.";
-
     private static SecretKey secretKey;
-
     private JwtParser jwtParser;
-
     private final int tokenValidityInMilliseconds;
 
     public TokenProvider() {
