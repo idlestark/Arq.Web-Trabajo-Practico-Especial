@@ -1,4 +1,5 @@
 package content.service;
+
 import content.client.ScooterClient;
 import content.client.TripClient;
 import content.DTO.ReportKilometerDTO;
@@ -8,6 +9,7 @@ import content.repository.MaintenanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,8 +50,7 @@ public class MaintenanceService {
 
     @Transactional
     public Maintenance startMaintenance(Long scooterId, String description) {
-
-        if (maintenanceRepository.findByScooter(scooterId)) {
+        if (maintenanceRepository.isScooterUnderMaintenance(scooterId)) {
             throw new RuntimeException("Requested scooter is already under maintenance");
         }
 
@@ -64,8 +65,8 @@ public class MaintenanceService {
 
     @Transactional
     public Maintenance endMaintenance(Long scooterId) {
-
-        Maintenance maintenance = maintenanceRepository.findById(scooterId).orElse(null);
+        Maintenance maintenance = maintenanceRepository.findByScooterIdAndFinishDateIsNull(scooterId)
+                .orElseThrow(() -> new RuntimeException("No active maintenance found for scooter id: " + scooterId));
 
         maintenance.setFinishDate(LocalDateTime.now());
         maintenanceRepository.save(maintenance);
@@ -76,22 +77,25 @@ public class MaintenanceService {
         return maintenance;
     }
 
-    public List<ReportKilometerDTO> generateReport (boolean pauses) {
+    public List<ReportKilometerDTO> generateReport(boolean pauses) {
         List<TripDTO> tripList = tripClient.getAllTrips();
+        if (tripList == null) {
+            return List.of();
+        }
         return tripList.stream()
                 .map(t -> {
                     double totalTime = t.getUseTime();
 
                     if (!pauses && t.getPauses() != null) {
                         double pauseTime = t.getPauses().stream()
-                                .filter(p -> p.getEndDate() != null)
+                                .filter(p -> p.getEndDate() != null && p.getStartDate() != null)
                                 .mapToDouble(p -> Duration.between(p.getStartDate(), p.getEndDate()).toMinutes())
                                 .sum();
                         totalTime -= pauseTime;
                     }
 
                     return new ReportKilometerDTO(
-                            t.getScooterId(), t.getKilometers(), totalTime);
+                            t.getScooterId(), t.getKilometers(), Math.max(0, totalTime));
                 })
                 .collect(Collectors.toList());
     }

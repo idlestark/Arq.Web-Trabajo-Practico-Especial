@@ -1,4 +1,5 @@
 package content.entities;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -12,7 +13,8 @@ public class Account {
     private String registrationDate;
     private Double balance;
     private boolean active;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "accounts")
     @JsonIgnore
     private List<User> users;
 

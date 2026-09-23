@@ -1,4 +1,5 @@
 package content.controller;
+
 import content.DTO.ScooterDTO;
 import content.entities.User;
 import content.service.UserService;
@@ -28,6 +29,7 @@ public class UserController {
         }
         return ResponseEntity.ok(users);
     }
+
     @Operation(summary = "Get user by ID", description = "Gets a single user specified by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found successfully"),
@@ -50,30 +52,28 @@ public class UserController {
         if (createdUser == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(createdUser);
+        return ResponseEntity.status(201).body(createdUser);
     }
 
     @Operation(summary = "Delete user", description = "Delete an existent user specified by its ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "204", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
-
 
     @Operation(summary = "Update user", description = "Updates an existent user with the given information")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "User updated successfully"),
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         User existingUsers = userService.findUserById(id);
-
         if (existingUsers == null) {
             return ResponseEntity.notFound().build();
         }
@@ -84,15 +84,13 @@ public class UserController {
         existingUsers.setEmail(user.getEmail());
 
         User updatedUser = userService.updateUser(existingUsers);
-
         return ResponseEntity.ok(updatedUser);
     }
-
 
     @Operation(summary = "Get nearby scooters", description = "Gets a list of all nearby scooters")
     @ApiResponse(responseCode = "200", description = "Scooters list obtained successfully")
     @GetMapping("/scooter/nearby")
-    public ResponseEntity<List<ScooterDTO>> getNearbyScooters(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius){
+    public ResponseEntity<List<ScooterDTO>> getNearbyScooters(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius) {
         List<ScooterDTO> scooter = userService.getNearbyScooters(latitude, longitude, radius);
         if (scooter.isEmpty()) {
             return ResponseEntity.noContent().build();

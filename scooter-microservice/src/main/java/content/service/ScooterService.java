@@ -1,10 +1,12 @@
 package content.service;
+
 import content.client.ClientTrip;
 import content.entities.Scooter;
 import content.repository.ScooterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
 
@@ -40,20 +42,22 @@ public class ScooterService {
         scooterRepository.deleteById(id);
     }
 
-
     public Map<String, Long> getScooterStatus() {
         long operative = scooterRepository.countByOperativeAndAvailable();
         long underMaintenance = scooterRepository.countByUnderMaintenance();
         return Map.of("Operative and available", operative, "Under maintenance", underMaintenance);
     }
 
-
     public List<Scooter> getNearbyScooters(double latitude, double longitude, double radius) {
         return scooterRepository.findNearbyScooters(latitude, longitude, radius);
     }
 
     public List<Scooter> getScootersWithMostTrips(int minTrips, int year) {
-        return clientTrip.getScootersWithMostTrips(minTrips, year);
+        List<Long> ids = clientTrip.getScootersWithMostTrips(minTrips, year);
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return scooterRepository.findAllById(ids);
     }
 
     public List<Scooter> getKilometersReport(Double km) {

@@ -1,4 +1,5 @@
 package content.controller;
+
 import content.service.StopService;
 import content.entities.Stop;
 import io.swagger.v3.oas.annotations.Operation;
@@ -6,12 +7,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/stop")
 public class StopController {
 
@@ -20,9 +21,9 @@ public class StopController {
     @Operation(summary = "Get all stops", description = "Gets a list of all stops")
     @ApiResponse(responseCode = "200", description = "Stops list obtained successfully")
     @GetMapping
-    public ResponseEntity<List<Stop>> getAllStops(){
+    public ResponseEntity<List<Stop>> getAllStops() {
         List<Stop> stops = stopService.findAllStops();
-        if(stops.isEmpty()){
+        if (stops.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(stops);
@@ -34,44 +35,43 @@ public class StopController {
             @ApiResponse(responseCode = "404", description = "Stop not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Stop> getStopById(@PathVariable("id") Long id){
+    public ResponseEntity<Stop> getStopById(@PathVariable("id") Long id) {
         Stop stop = stopService.findStopById(id);
-        if(stop == null){
-            return ResponseEntity.noContent().build();
+        if (stop == null) {
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(stop);
     }
 
-
     @Operation(summary = "Create stop", description = "Creates a new stop")
     @ApiResponse(responseCode = "201", description = "Stop created successfully")
     @PostMapping
-    public ResponseEntity<Stop> createStop(@RequestBody Stop stop){
+    public ResponseEntity<Stop> createStop(@RequestBody Stop stop) {
         Stop stopCreated = stopService.saveStop(stop);
-        if(stopCreated == null){
-            return ResponseEntity.noContent().build();
+        if (stopCreated == null) {
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(stopCreated);
+        return ResponseEntity.status(201).body(stopCreated);
     }
 
     @Operation(summary = "Delete stop", description = "Deletes an existent stop")
-    @ApiResponse(responseCode = "200", description = "Stop deleted successfully")
+    @ApiResponse(responseCode = "204", description = "Stop deleted successfully")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Stop> deleteStop(@PathVariable("id") Long id){
+    public ResponseEntity<Void> deleteStop(@PathVariable("id") Long id) {
         stopService.deleteStop(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Update stop", description = "Updates an existent stop with the given information")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Stop updated successfully"),
+            @ApiResponse(responseCode = "200", description = "Stop updated successfully"),
             @ApiResponse(responseCode = "404", description = "Stop not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Stop> updateStop(@PathVariable("id") Long id, @RequestBody Stop stop){
+    public ResponseEntity<Stop> updateStop(@PathVariable("id") Long id, @RequestBody Stop stop) {
         Stop existentStop = stopService.findStopById(id);
-        if(existentStop == null){
-            return ResponseEntity.noContent().build();
+        if (existentStop == null) {
+            return ResponseEntity.notFound().build();
         }
 
         existentStop.setName(stop.getName());
@@ -79,7 +79,6 @@ public class StopController {
         existentStop.setLongitude(stop.getLongitude());
 
         Stop updatedStop = stopService.saveStop(existentStop);
-
         return ResponseEntity.ok(updatedStop);
     }
 }

@@ -1,8 +1,10 @@
 package content.client;
+
+import content.DTO.ScooterDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import java.util.Map;
-
 
 @FeignClient(name = "scooter-microservice", url = "http://localhost:8002/scooter")
 public interface ScooterClient {
@@ -15,4 +17,7 @@ public interface ScooterClient {
 
     @GetMapping("/status")
     Map<String, Long> getScooterStatus();
+
+    @GetMapping("/trips/{minTrips}/{year}")
+    List<ScooterDTO> getScootersWithMostTrips(@PathVariable("minTrips") int minTrips, @PathVariable("year") int year);
 }

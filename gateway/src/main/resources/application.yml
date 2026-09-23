@@ -20,35 +20,54 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-cloud:
-  gateway:
-    routes:
-      - id: user-microservice
-        uri: http://localhost:8006
-        predicates:
-          - Path=/user/**
-          - Path=/account/**
-      - id: scooter-microservice
-        uri: http://localhost:8002
-        predicates:
-          - Path=/scooter/**
-          - Path=/stop/**
-      - id: ticket-microservice
-        uri: http://localhost:8008
-        predicates:
-          - Path=/ticket/**
-          - Path=/ticket-details/**
-          - Path=/fee/**
-      - id: admin-microservice
-        uri: http://localhost:8003
-        predicates:
-          - Path=/maintenance/**
-          - Path=/admin/**
-      - id: trip-microservice
-        uri: http://localhost:8005
-        predicates:
-          - Path=/trip/**
-          - Path=/pause/**
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: user-service-users
+            uri: http://localhost:8006
+            predicates:
+              - Path=/user/**
+          - id: user-service-accounts
+            uri: http://localhost:8006
+            predicates:
+              - Path=/account/**
+          - id: scooter-service-scooters
+            uri: http://localhost:8002
+            predicates:
+              - Path=/scooter/**
+          - id: scooter-service-stops
+            uri: http://localhost:8002
+            predicates:
+              - Path=/stop/**
+          - id: ticket-service-tickets
+            uri: http://localhost:8008
+            predicates:
+              - Path=/ticket/**
+          - id: ticket-service-details
+            uri: http://localhost:8008
+            predicates:
+              - Path=/ticket-details/**
+          - id: ticket-service-fees
+            uri: http://localhost:8008
+            predicates:
+              - Path=/fee/**
+          - id: admin-service-admin
+            uri: http://localhost:8003
+            predicates:
+              - Path=/admin/**
+          - id: admin-service-maintenance
+            uri: http://localhost:8003
+            predicates:
+              - Path=/maintenance/**
+          - id: trip-service-trips
+            uri: http://localhost:8005
+            predicates:
+              - Path=/trip/**
+          - id: trip-service-pauses
+            uri: http://localhost:8005
+            predicates:
+              - Path=/pause/**
 
 logging:
   level:

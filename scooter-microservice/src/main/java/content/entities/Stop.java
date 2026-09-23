@@ -1,4 +1,6 @@
 package content.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,9 @@ public class Stop {
     private String name;
     private double latitude;
     private double longitude;
+
     @OneToMany(mappedBy = "stop")
+    @JsonIgnore
     private List<Scooter> scooterList;
 
     public Stop() {
@@ -57,5 +61,13 @@ public class Stop {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public List<Scooter> getScooterList() {
+        return scooterList;
+    }
+
+    public void setScooterList(List<Scooter> scooterList) {
+        this.scooterList = scooterList;
     }
 }

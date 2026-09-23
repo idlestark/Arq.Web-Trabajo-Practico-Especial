@@ -1,51 +1,32 @@
 package content.DTO;
 
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
 public class PauseDTO {
 
     private Long id;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Long duration;
 
-    private LocalDateTime start;
-    private LocalDateTime end;
-    private double duration;
+    public PauseDTO() {}
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tripDTO_id", nullable = false)
-    private TripDTO trip;
-
-    public PauseDTO() {
-    }
-
-    public PauseDTO(Long id, LocalDateTime start, LocalDateTime end, double duration, TripDTO tripdto) {
+    public PauseDTO(Long id, LocalDateTime startDate, LocalDateTime endDate, Long duration) {
         this.id = id;
-        this.start = start;
-        this.end = end;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.duration = duration;
-        this.trip = tripdto;
     }
 
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {return id;}
+    public LocalDateTime getStartDate() { return startDate; }
+    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
 
-    public void setId(Long id) {this.id = id;}
+    public LocalDateTime getEndDate() { return endDate; }
+    public void setEndDate(LocalDateTime endDate) { this.endDate = endDate; }
 
-    public LocalDateTime getStart() {return start;}
-
-    public void setStart(LocalDateTime start) {this.start = start;}
-
-    public LocalDateTime getEnd() {return end;}
-
-    public void setEnd(LocalDateTime end) {this.end = end;}
-
-    public double getDuration() {return duration;}
-
-    public void setDuration(double duration) {this.duration = duration;}
-
-    public TripDTO getTrip() {return trip;}
-
-    public void setTrip(TripDTO trip) {this.trip = trip;}
+    public Long getDuration() { return duration; }
+    public void setDuration(Long duration) { this.duration = duration; }
 }

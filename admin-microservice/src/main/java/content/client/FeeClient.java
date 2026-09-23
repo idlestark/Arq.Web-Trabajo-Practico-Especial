@@ -1,12 +1,18 @@
 package content.client;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
-@FeignClient(name = "fee-microservice", url = "http://localhost:8008/fee")
+@FeignClient(name = "ticket-microservice", url = "http://localhost:8008/fee")
 public interface FeeClient {
-    @PostMapping("/update-prices")
-    void updatePrices(@RequestParam double newTicket, @RequestParam double newExtraTicket, @RequestParam LocalDate dateStart);
+
+    @PostMapping("/update-price")
+    void updatePrices(
+            @RequestParam("newBaseFee") double newBaseFee,
+            @RequestParam("newExtraFee") double newExtraFee,
+            @RequestParam("startDate") LocalDate startDate
+    );
 }
