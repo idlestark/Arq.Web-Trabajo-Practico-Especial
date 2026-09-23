@@ -47,7 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/maintenance").hasAuthority( AuthorityConstant._ADMIN )
                         .requestMatchers("/scooter/**").hasAuthority( AuthorityConstant._USER )
                         .requestMatchers("/ticket/**").hasAuthority( AuthorityConstant._USER )
-                        //.requestMatchers("/user/**").hasAuthority( AuthorityConstant._USER )
+                        .requestMatchers("/user/**").hasAuthority( AuthorityConstant._USER )
                         .requestMatchers( "/trip/**").hasAuthority( AuthorityConstant._USER )
                         .requestMatchers( "/pause/**").hasAuthority( AuthorityConstant._USER )
                         .anyRequest().authenticated()
