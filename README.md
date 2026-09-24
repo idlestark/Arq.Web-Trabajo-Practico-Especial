@@ -14,8 +14,8 @@ Sistema distribuido basado en arquitectura de microservicios para la gestión in
 
 ## 📋 Tabla de Contenidos
 - [Descripción General](#-descripción-general)
-- [Arquitectura del Sistema](#-arquitectura-del-sistema)
-- [Microservicios y Puertos](#-microservicios-y-puertos)
+- [System Architecture](#-system-architecture)
+- [Microservices and Ports](#-microservices-and-ports)
 - [Requisitos Previos](#-requisitos-previos)
 - [Configuración de Base de Datos](#-configuración-de-base-de-datos)
 - [Compilación y Ejecución](#-compilación-y-ejecución)
@@ -37,19 +37,19 @@ El sistema permite gestionar un ecosistema completo de alquiler de monopatines e
 
 ---
 
-## 🏛 Arquitectura del Sistema
+## 🏛 System Architecture
 
-La solución adopta el patrón **Database-per-Service** para garantizar el desacoplamiento de datos, un **API Gateway** como punto de acceso único perimetral con filtro de seguridad JWT, y comunicación síncrona entre microservicios mediante clientes declarativos **Spring Cloud OpenFeign**.
+The solution adopts the **Database-per-Service** pattern to guarantee strict data decoupling, an **API Gateway** as the single perimeter entry point with JWT security filtering, and synchronous inter-service communication through declarative **Spring Cloud OpenFeign** clients.
 
 ```mermaid
 flowchart TD
-    Client(["Clientes / Postman / Frontend"]) -->|Peticiones HTTP con Bearer JWT| GW["API Gateway\n(:8009)"]
+    Client(["Clients / Postman / Frontend"]) -->|HTTP Requests with Bearer JWT| GW["API Gateway\n(:8009)"]
     
-    subgraph Seguridad & Ruteo
+    subgraph Security & Routing
         GW -->|Auth DB| DB_AUTH[("MySQL: auth")]
     end
 
-    subgraph Microservicios de Negocio
+    subgraph Core Business Microservices
         GW -->|/user/**, /account/**| US["User Microservice\n(:8006)"]
         GW -->|/scooter/**, /stop/**| SC["Scooter Microservice\n(:8002)"]
         GW -->|/trip/**, /pause/**| TR["Trip Microservice\n(:8005)"]
@@ -57,16 +57,16 @@ flowchart TD
         GW -->|/admin/**, /maintenance/**| AD["Admin Microservice\n(:8003)"]
     end
 
-    subgraph Comunicación Inter-Servicios [OpenFeign]
-        US -.->|Feign: Monopatines Cercanos| SC
-        SC -.->|Feign: Monopatines con más viajes| TR
-        AD -.->|Feign: Suspender cuentas| US
-        AD -.->|Feign: Estado / Disponibilidad / Viajes| SC
-        AD -.->|Feign: Métricas de viajes| TR
-        AD -.->|Feign: Ajuste de tarifas / Recaudación| TK
+    subgraph Inter-Service Communication [OpenFeign]
+        US -.->|Feign: Nearby Scooters| SC
+        SC -.->|Feign: Scooters with Most Trips| TR
+        AD -.->|Feign: Suspend Accounts| US
+        AD -.->|Feign: Status / Availability / Trips| SC
+        AD -.->|Feign: Trip Metrics| TR
+        AD -.->|Feign: Tariff Adjustments / Revenue| TK
     end
 
-    subgraph Bases de Datos Dedicadas
+    subgraph Dedicated Databases [Database-per-Service]
         US --> DB_USR[("MySQL: user")]
         SC --> DB_SCT[("MySQL: scooter")]
         TR --> DB_TRP[("MySQL: trip")]
@@ -77,16 +77,16 @@ flowchart TD
 
 ---
 
-## 🔌 Microservicios y Puertos
+## 🔌 Microservices and Ports
 
-| Microservicio | Puerto | Base de Datos MySQL | Responsabilidad Principal |
+| Microservice | Port | MySQL Database | Primary Responsibility |
 |---|:---:|---|---|
-| **Gateway** | `8009` | `auth` | Punto de entrada, autenticación JWT, autorización perimetral y ruteo dinámico. |
-| **Admin Microservice** | `8003` | `admin` | Mantenimiento preventivo, auditoría, reportes agregados y ajuste de tarifas. |
-| **Scooter Microservice** | `8002` | `scooter` | Inventario de monopatines, paradas habilitadas y búsqueda por proximidad. |
-| **Trip Microservice** | `8005` | `trip` | Registro de viajes, control de pausas y medición de kilómetros/tiempos. |
-| **Ticket Microservice** | `8008` | `ticket` | Emisión de tickets de facturación, cálculo de montos y gestión de tarifas. |
-| **User Microservice** | `8006` | `user` | Gestión de usuarios, cuentas de saldo y vinculación monopatín-usuario. |
+| **Gateway** | `8009` | `auth` | Single entry point, JWT authentication, perimeter authorization, and dynamic reverse-proxy routing. |
+| **Admin Microservice** | `8003` | `admin` | Preventive maintenance, auditing, aggregated operational reports, and global tariff management. |
+| **Scooter Microservice** | `8002` | `scooter` | Scooter fleet inventory, authorized parking stations, and geo-proximity search. |
+| **Trip Microservice** | `8005` | `trip` | Trip lifecycle tracking, pause interval management, and mileage/time calculation. |
+| **Ticket Microservice** | `8008` | `ticket` | Automated invoice ticket generation, fee calculations, and tariff policies. |
+| **User Microservice** | `8006` | `user` | User registrations, monetary balance accounts, and user-scooter associations. |
 
 ---
 

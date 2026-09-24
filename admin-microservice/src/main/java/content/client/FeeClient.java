@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
-@FeignClient(name = "ticket-microservice", url = "http://localhost:8008/fee")
+@FeignClient(name = "ticket-microservice", contextId = "feeClient", url = "http://localhost:8008/fee")
 public interface FeeClient {
 
     @PostMapping("/update-price")

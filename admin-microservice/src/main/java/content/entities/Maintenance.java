@@ -16,14 +16,14 @@ public class Maintenance {
 
     private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
+    private LocalDateTime finishDate;
 
 
-    public Maintenance(Long scooterId, String description, LocalDateTime startDate, LocalDateTime endDate) {
+    public Maintenance(Long scooterId, String description, LocalDateTime startDate, LocalDateTime finishDate) {
         this.scooterId = scooterId;
         this.description = description;
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.finishDate = finishDate;
     }
 
     public Maintenance() {
@@ -47,7 +47,7 @@ public class Maintenance {
 
     public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
 
-    public LocalDateTime getFinishDate() { return endDate; }
+    public LocalDateTime getFinishDate() { return finishDate; }
 
-    public void setFinishDate(LocalDateTime finishDate) { this.endDate = finishDate; }
+    public void setFinishDate(LocalDateTime finishDate) { this.finishDate = finishDate; }
 }
